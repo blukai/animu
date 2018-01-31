@@ -1,4 +1,10 @@
+# deps
+/bakkuendo/vendor
 /apuri/node_modules
 
-/bakkuendo/vendor
+# parcel
+/apuri/dist
+/apuri/.cache
+
+# terraform
 /bakkuendo/infrastructure/**/*terraform*
