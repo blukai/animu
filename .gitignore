@@ -1,0 +1,4 @@
+/apuri/node_modules
+
+/bakkuendo/vendor
+/bakkuendo/infrastructure/**/*terraform*
