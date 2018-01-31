@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"os"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -31,7 +30,7 @@ func dumper() error {
 	uploader := s3manager.NewUploader(session.Must(session.NewSession()))
 
 	input := &s3manager.UploadInput{
-		Bucket:      aws.String(fmt.Sprintf("%s-%s-x", constants.PREFIX, os.Getenv("AWS_REGION"))),
+		Bucket:      aws.String(fmt.Sprintf("%s-x", constants.PREFIX)),
 		Key:         aws.String("anime-titles.json"),
 		ContentType: aws.String("application/json"),
 		Body:        bytes.NewReader(jd),

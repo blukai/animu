@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "x" {
-  bucket = "${var.prefix}-${var.aws_region}-x"
+  bucket = "${var.prefix}-x"
   acl    = "public-read"
 }
 
