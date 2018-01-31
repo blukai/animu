@@ -1,16 +1,30 @@
 const { app, BrowserWindow } = require('electron')
 
+const { NODE_ENV } = process.env
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
 const createWindow = () => {
   win = new BrowserWindow({
-    width: 640,
-    height: 480
+    show: false,
+    frame: false,
+    resizable: false,
+    width: 300,
+    height: 350
   })
 
+  if (NODE_ENV === 'development') {
+    // Open the DevTools.
+    win.webContents.openDevTools()
+  }
+
   win.loadURL('http://localhost:8000')
+
+  win.once('ready-to-show', () => {
+    win.show()
+  })
 
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
