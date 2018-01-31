@@ -1,133 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <animetitles>
-	<anime aid="6327">
-		<title xml:lang="ko" type="official">괴물 이야기</title>
-		<title type="official" xml:lang="x-kot">바케모노가타리</title>
-		<title xml:lang="th" type="syn">บาเกะโมโนกาตาริ</title>
-		<title xml:lang="th" type="official">ปกรณัมของเหล่าภูต</title>
-		<title xml:lang="en" type="short">bakemono</title>
-		<title type="official" xml:lang="fr">Bakemonogatari</title>
-		<title xml:lang="x-jat" type="main">Bakemonogatari</title>
-		<title xml:lang="en" type="official">Bakemonogatari</title>
-		<title type="short" xml:lang="x-jat">BMG</title>
-		<title type="official" xml:lang="tr">Canavar Hikayeleri</title>
-		<title xml:lang="en" type="syn">Ghostory</title>
-		<title type="syn" xml:lang="lt">Monstrų Istorijos</title>
-		<title type="syn" xml:lang="fa">باکمونوگاتاری</title>
-		<title xml:lang="fa" type="syn">داستان از ما بهتران</title>
-		<title xml:lang="uk" type="syn">Бакемоноґатарі</title>
-		<title xml:lang="bg" type="syn">Истории за Чудовището</title>
-		<title type="syn" xml:lang="ru">Истории о Чудовищах</title>
-		<title type="syn" xml:lang="ru">Монстрассказы</title>
-		<title type="syn" xml:lang="uk">Монстроповідання</title>
-		<title type="syn" xml:lang="uk">Оповідання про монстрів</title>
-		<title type="syn" xml:lang="uk">Потвороповідь</title>
-		<title xml:lang="ja" type="official">化物語</title>
-		<title type="syn" xml:lang="zh-Hant">化物語</title>
-		<title type="official" xml:lang="zh-Hans">化物语</title>
-	</anime>
-	<anime aid="8658">
-		<title xml:lang="ko" type="syn">가짜 이야기</title>
-		<title type="official" xml:lang="ko">니세모노가타리</title>
-		<title xml:lang="en" type="syn">Bogustory</title>
-		<title type="syn" xml:lang="en">Impostory</title>
-		<title type="main" xml:lang="x-jat">Nisemonogatari</title>
-		<title xml:lang="en" type="official">Nisemonogatari</title>
-		<title type="official" xml:lang="fr">Nisemonogatari (Histoires d`Imposture)</title>
-		<title xml:lang="x-jat" type="short">NMG</title>
-		<title xml:lang="zh-Hans" type="official">伪物语</title>
-		<title xml:lang="ja" type="official">偽物語</title>
-	</anime>
-	<anime aid="9453">
-		<title xml:lang="ko" type="syn">고양이 이야기 (흑)</title>
-		<title type="official" xml:lang="ko">네코모노가타리</title>
-		<title xml:lang="en" type="syn">Cat Story (Black)</title>
-		<title xml:lang="en" type="official">Nekomonogatari (Black): Tsubasa Family</title>
-		<title xml:lang="en" type="syn">Nekomonogatari Black: Tsubasa Family</title>
-		<title xml:lang="en" type="syn">Nekomonogatari (Kuro)</title>
-		<title type="main" xml:lang="x-jat">Nekomonogatari (Kuro): Tsubasa Family</title>
-		<title type="official" xml:lang="fr">Nekomonogatari Noir</title>
-		<title type="short" xml:lang="x-jat">nkmg</title>
-		<title type="short" xml:lang="x-jat">nmgk</title>
-		<title type="syn" xml:lang="x-jat">Tsubasa Family</title>
-		<title xml:lang="ja" type="official">猫物語(黒) つばさファミリー</title>
-		<title xml:lang="zh-Hans" type="official">猫物语(黑)</title>
-	</anime>
-	<anime aid="9183">
-		<title type="syn" xml:lang="x-jat">Kabukimonogatari</title>
-		<title xml:lang="x-jat" type="syn">Koimonogatari</title>
-		<title xml:lang="en" type="syn">Monogatari S2</title>
-		<title xml:lang="fr" type="official">Monogatari Seconde Saison</title>
-		<title xml:lang="en" type="official">Monogatari Series Second Season</title>
-		<title xml:lang="x-jat" type="main">Monogatari Series: Second Season</title>
-		<title type="syn" xml:lang="en">Monogatari SS</title>
-		<title xml:lang="x-jat" type="short">MSSS</title>
-		<title type="syn" xml:lang="x-jat">Nekomonogatari (Shiro)</title>
-		<title xml:lang="x-jat" type="syn">Onimonogatari</title>
-		<title type="syn" xml:lang="x-jat">Otorimonogatari</title>
-		<title type="syn" xml:lang="en">Story Series: Second Season</title>
-		<title xml:lang="x-jat" type="syn">Zenmonogatari</title>
-		<title xml:lang="ja" type="syn">傾物語</title>
-		<title xml:lang="ja" type="syn">全物語</title>
-		<title xml:lang="ja" type="syn">囮物語</title>
-		<title xml:lang="ja" type="syn">恋物語</title>
-		<title xml:lang="ja" type="official">物語シリーズ セカンドシーズン</title>
-		<title type="official" xml:lang="zh-Hans">物语系列 第二季</title>
-		<title xml:lang="ja" type="syn">猫物語(白)</title>
-		<title xml:lang="ja" type="syn">鬼物語</title>
-	</anime>
-	<anime aid="10046">
-		<title xml:lang="x-jat" type="short">Hanamonogatari</title>
-		<title type="official" xml:lang="en">Hanamonogatari: Suruga Devil</title>
-		<title type="main" xml:lang="x-jat">Hanamonogatari: Suruga Devil</title>
-		<title xml:lang="x-jat" type="short">HMG</title>
-		<title xml:lang="x-unk" type="syn">Monogatari Series: Second Season +α</title>
-		<title type="official" xml:lang="ja">花物語 するがデビル</title>
-		<title xml:lang="zh-Hans" type="official">花物语</title>
-	</anime>
-	<anime aid="10891">
-		<title type="short" xml:lang="x-jat">tmgyd</title>
-		<title type="official" xml:lang="en">Tsukimonogatari: Yotsugi Doll</title>
-		<title xml:lang="x-jat" type="main">Tsukimonogatari: Yotsugi Doll</title>
-		<title xml:lang="ja" type="official">憑物語 よつぎドール</title>
-	</anime>
-	<anime aid="11350">
-		<title type="syn" xml:lang="en">Endstory</title>
-		<title xml:lang="x-jat" type="short">OMG</title>
-		<title type="main" xml:lang="x-jat">Owarimonogatari</title>
-		<title xml:lang="en" type="official">Owarimonogatari</title>
-		<title type="syn" xml:lang="ru">Истории Последствий</title>
-		<title xml:lang="bg" type="syn">Край на историята</title>
-		<title type="official" xml:lang="ja">終物語</title>
-	</anime>
-	<anime aid="11827">
-		<title xml:lang="ja" type="syn">コヨミモノガタリ</title>
-		<title xml:lang="en" type="syn">Calendar Story</title>
-		<title type="official" xml:lang="en">Koyomimonogatari</title>
-		<title type="main" xml:lang="x-jat">Koyomimonogatari</title>
-		<title xml:lang="ja" type="official">暦物語</title>
-	</anime>
-	<anime aid="8357">
-		<title xml:lang="en" type="official">Kizumonogatari</title>
-		<title type="main" xml:lang="x-jat">Kizumonogatari</title>
-		<title type="short" xml:lang="x-jat">KMG</title>
-		<title xml:lang="uk" type="syn">Кізумоноґатарі</title>
-		<title type="official" xml:lang="zh-Hans">伤物语</title>
-		<title type="official" xml:lang="ja">傷物語</title>
-	</anime>
-	<anime aid="13033">
-		<title type="main" xml:lang="x-jat">Owarimonogatari (2017)</title>
-		<title xml:lang="en" type="syn">Owarimonogatari S2</title>
-		<title type="official" xml:lang="en">Owarimonogatari Second Season</title>
-		<title xml:lang="ja" type="official">終物語 (2017)</title>
-		<title type="syn" xml:lang="zh-Hans">终物语 下</title>
-	</anime>
-	<anime aid="13691">
-		<title type="syn" xml:lang="en">Next endstory</title>
-		<title type="syn" xml:lang="x-jat">Zokuowarimonogatari</title>
-		<title xml:lang="x-jat" type="main">Zoku Owarimonogatari</title>
-		<title type="syn" xml:lang="bg">Следващ край на историята</title>
-		<title type="syn" xml:lang="ja">続終物語</title>
-		<title type="official" xml:lang="ja">続・終物語</title>
-	</anime>
+  <anime aid="6327">
+    <title xml:lang="ko" type="official">괴물 이야기</title>
+    <title type="official" xml:lang="x-kot">바케모노가타리</title>
+    <title xml:lang="th" type="syn">บาเกะโมโนกาตาริ</title>
+    <title xml:lang="th" type="official">ปกรณัมของเหล่าภูต</title>
+    <title xml:lang="en" type="short">bakemono</title>
+    <title type="official" xml:lang="fr">Bakemonogatari</title>
+    <title xml:lang="x-jat" type="main">Bakemonogatari</title>
+    <title xml:lang="en" type="official">Bakemonogatari</title>
+    <title type="short" xml:lang="x-jat">BMG</title>
+    <title type="official" xml:lang="tr">Canavar Hikayeleri</title>
+    <title xml:lang="en" type="syn">Ghostory</title>
+    <title type="syn" xml:lang="lt">Monstrų Istorijos</title>
+    <title type="syn" xml:lang="fa">باکمونوگاتاری</title>
+    <title xml:lang="fa" type="syn">داستان از ما بهتران</title>
+    <title xml:lang="uk" type="syn">Бакемоноґатарі</title>
+    <title xml:lang="bg" type="syn">Истории за Чудовището</title>
+    <title type="syn" xml:lang="ru">Истории о Чудовищах</title>
+    <title type="syn" xml:lang="ru">Монстрассказы</title>
+    <title type="syn" xml:lang="uk">Монстроповідання</title>
+    <title type="syn" xml:lang="uk">Оповідання про монстрів</title>
+    <title type="syn" xml:lang="uk">Потвороповідь</title>
+    <title xml:lang="ja" type="official">化物語</title>
+    <title type="syn" xml:lang="zh-Hant">化物語</title>
+    <title type="official" xml:lang="zh-Hans">化物语</title>
+  </anime>
+  <anime aid="8658">
+    <title xml:lang="ko" type="syn">가짜 이야기</title>
+    <title type="official" xml:lang="ko">니세모노가타리</title>
+    <title xml:lang="en" type="syn">Bogustory</title>
+    <title type="syn" xml:lang="en">Impostory</title>
+    <title type="main" xml:lang="x-jat">Nisemonogatari</title>
+    <title xml:lang="en" type="official">Nisemonogatari</title>
+    <title type="official" xml:lang="fr">Nisemonogatari (Histoires d`Imposture)</title>
+    <title xml:lang="x-jat" type="short">NMG</title>
+    <title xml:lang="zh-Hans" type="official">伪物语</title>
+    <title xml:lang="ja" type="official">偽物語</title>
+  </anime>
+  <anime aid="9453">
+    <title xml:lang="ko" type="syn">고양이 이야기 (흑)</title>
+    <title type="official" xml:lang="ko">네코모노가타리</title>
+    <title xml:lang="en" type="syn">Cat Story (Black)</title>
+    <title xml:lang="en" type="official">Nekomonogatari (Black): Tsubasa Family</title>
+    <title xml:lang="en" type="syn">Nekomonogatari Black: Tsubasa Family</title>
+    <title xml:lang="en" type="syn">Nekomonogatari (Kuro)</title>
+    <title type="main" xml:lang="x-jat">Nekomonogatari (Kuro): Tsubasa Family</title>
+    <title type="official" xml:lang="fr">Nekomonogatari Noir</title>
+    <title type="short" xml:lang="x-jat">nkmg</title>
+    <title type="short" xml:lang="x-jat">nmgk</title>
+    <title type="syn" xml:lang="x-jat">Tsubasa Family</title>
+    <title xml:lang="ja" type="official">猫物語(黒) つばさファミリー</title>
+    <title xml:lang="zh-Hans" type="official">猫物语(黑)</title>
+  </anime>
+  <anime aid="9183">
+    <title type="syn" xml:lang="x-jat">Kabukimonogatari</title>
+    <title xml:lang="x-jat" type="syn">Koimonogatari</title>
+    <title xml:lang="en" type="syn">Monogatari S2</title>
+    <title xml:lang="fr" type="official">Monogatari Seconde Saison</title>
+    <title xml:lang="en" type="official">Monogatari Series Second Season</title>
+    <title xml:lang="x-jat" type="main">Monogatari Series: Second Season</title>
+    <title type="syn" xml:lang="en">Monogatari SS</title>
+    <title xml:lang="x-jat" type="short">MSSS</title>
+    <title type="syn" xml:lang="x-jat">Nekomonogatari (Shiro)</title>
+    <title xml:lang="x-jat" type="syn">Onimonogatari</title>
+    <title type="syn" xml:lang="x-jat">Otorimonogatari</title>
+    <title type="syn" xml:lang="en">Story Series: Second Season</title>
+    <title xml:lang="x-jat" type="syn">Zenmonogatari</title>
+    <title xml:lang="ja" type="syn">傾物語</title>
+    <title xml:lang="ja" type="syn">全物語</title>
+    <title xml:lang="ja" type="syn">囮物語</title>
+    <title xml:lang="ja" type="syn">恋物語</title>
+    <title xml:lang="ja" type="official">物語シリーズ セカンドシーズン</title>
+    <title type="official" xml:lang="zh-Hans">物语系列 第二季</title>
+    <title xml:lang="ja" type="syn">猫物語(白)</title>
+    <title xml:lang="ja" type="syn">鬼物語</title>
+  </anime>
+  <anime aid="10046">
+    <title xml:lang="x-jat" type="short">Hanamonogatari</title>
+    <title type="official" xml:lang="en">Hanamonogatari: Suruga Devil</title>
+    <title type="main" xml:lang="x-jat">Hanamonogatari: Suruga Devil</title>
+    <title xml:lang="x-jat" type="short">HMG</title>
+    <title xml:lang="x-unk" type="syn">Monogatari Series: Second Season +α</title>
+    <title type="official" xml:lang="ja">花物語 するがデビル</title>
+    <title xml:lang="zh-Hans" type="official">花物语</title>
+  </anime>
+  <anime aid="10891">
+    <title type="short" xml:lang="x-jat">tmgyd</title>
+    <title type="official" xml:lang="en">Tsukimonogatari: Yotsugi Doll</title>
+    <title xml:lang="x-jat" type="main">Tsukimonogatari: Yotsugi Doll</title>
+    <title xml:lang="ja" type="official">憑物語 よつぎドール</title>
+  </anime>
+  <anime aid="11350">
+    <title type="syn" xml:lang="en">Endstory</title>
+    <title xml:lang="x-jat" type="short">OMG</title>
+    <title type="main" xml:lang="x-jat">Owarimonogatari</title>
+    <title xml:lang="en" type="official">Owarimonogatari</title>
+    <title type="syn" xml:lang="ru">Истории Последствий</title>
+    <title xml:lang="bg" type="syn">Край на историята</title>
+    <title type="official" xml:lang="ja">終物語</title>
+  </anime>
+  <anime aid="11827">
+    <title xml:lang="ja" type="syn">コヨミモノガタリ</title>
+    <title xml:lang="en" type="syn">Calendar Story</title>
+    <title type="official" xml:lang="en">Koyomimonogatari</title>
+    <title type="main" xml:lang="x-jat">Koyomimonogatari</title>
+    <title xml:lang="ja" type="official">暦物語</title>
+  </anime>
+  <anime aid="8357">
+    <title xml:lang="en" type="official">Kizumonogatari</title>
+    <title type="main" xml:lang="x-jat">Kizumonogatari</title>
+    <title type="short" xml:lang="x-jat">KMG</title>
+    <title xml:lang="uk" type="syn">Кізумоноґатарі</title>
+    <title type="official" xml:lang="zh-Hans">伤物语</title>
+    <title type="official" xml:lang="ja">傷物語</title>
+  </anime>
+  <anime aid="13033">
+    <title type="main" xml:lang="x-jat">Owarimonogatari (2017)</title>
+    <title xml:lang="en" type="syn">Owarimonogatari S2</title>
+    <title type="official" xml:lang="en">Owarimonogatari Second Season</title>
+    <title xml:lang="ja" type="official">終物語 (2017)</title>
+    <title type="syn" xml:lang="zh-Hans">终物语 下</title>
+  </anime>
+  <anime aid="13691">
+    <title type="syn" xml:lang="en">Next endstory</title>
+    <title type="syn" xml:lang="x-jat">Zokuowarimonogatari</title>
+    <title xml:lang="x-jat" type="main">Zoku Owarimonogatari</title>
+    <title type="syn" xml:lang="bg">Следващ край на историята</title>
+    <title type="syn" xml:lang="ja">続終物語</title>
+    <title type="official" xml:lang="ja">続・終物語</title>
+  </anime>
 </animetitles>
