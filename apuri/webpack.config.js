@@ -8,11 +8,9 @@ const { NODE_ENV } = process.env
 
 const config = {
   bail: true, // don't attempt to continue if there are any errors.
-
   devtool: 'cheap-module-source-map',
 
   entry: [resolve('renderer/main.js')],
-
   output: {
     filename: 'bundle.js',
     path: resolve('dist'),
@@ -20,7 +18,7 @@ const config = {
   },
 
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.css']
   },
 
   module: {
@@ -69,12 +67,14 @@ const config = {
 }
 
 if (NODE_ENV !== 'production') {
-  config.plugins.push(new HotModuleReplacementPlugin())
-
   config.entry.unshift(
     require.resolve('webpack-dev-server/client') + '?/',
     require.resolve('webpack/hot/dev-server')
   )
+
+  config.output = '/'
+
+  config.plugins.push(new HotModuleReplacementPlugin())
 
   config.devServer = {
     compress: true,

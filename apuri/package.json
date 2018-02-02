@@ -6,7 +6,8 @@
     "dev:main": "cross-env NODE_ENV=development electron ./main/main.js",
     "dev:renderer": "cross-env NODE_ENV=development webpack-dev-server",
     "start":
-      "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\""
+      "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
+    "build:renderer": "cross-env NODE_ENV=production webpack"
   },
   "author": "blukai",
   "dependencies": {
