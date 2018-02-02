@@ -2,9 +2,8 @@
 /bakkuendo/vendor
 /apuri/node_modules
 
-# parcel
-/apuri/dist
-/apuri/.cache
-
 # terraform
 /bakkuendo/infrastructure/**/*terraform*
+
+# dist
+/apuri/dist

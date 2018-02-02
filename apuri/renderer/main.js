@@ -1,22 +1,48 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { HashRouter } from 'react-router-dom'
+
 import { Provider } from 'mobx-react'
-import { enableLogging } from 'mobx-logger'
+import { HashRouter } from 'react-router-dom'
+
+import { injectGlobal } from 'styled-components'
+
 import stores from './stores'
-import App from './containers/App'
+
+import App from './app'
+
+// ----
 
 const { NODE_ENV } = process.env
 
 if (NODE_ENV !== 'production') {
-  enableLogging()
+  const { whyDidYouUpdate } = require('why-did-you-update')
+  whyDidYouUpdate(React)
 }
 
+// ----
+
+injectGlobal`
+  html, body, #react-root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    margin: 0;
+  }
+`
+
+// ----
+
 render(
-  <HashRouter>
-    <Provider {...stores}>
+  <Provider {...stores}>
+    <HashRouter>
       <App />
-    </Provider>
-  </HashRouter>,
+    </HashRouter>
+  </Provider>,
   document.getElementById('react-root')
 )
+
+if (module.hot) {
+  module.hot.accept()
+}
