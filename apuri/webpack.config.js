@@ -61,7 +61,11 @@ const config = {
       template: resolve('renderer/index.html')
     }),
     new DefinePlugin({
-      NODE_ENV: JSON.stringify(NODE_ENV)
+      NODE_ENV: JSON.stringify(NODE_ENV),
+      BUCKET_URL: JSON.stringify(
+        process.env.BUCKET_URL ||
+          'https://s3.eu-central-1.amazonaws.com/animu-x'
+      )
     })
   ]
 }

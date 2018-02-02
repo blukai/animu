@@ -12,7 +12,11 @@ const createWindow = () => {
     frame: false,
     resizable: false,
     width: 300,
-    height: 350
+    height: 350,
+    // cors'ish
+    webPreferences: {
+      webSecurity: false
+    }
   })
 
   if (NODE_ENV === 'development') {

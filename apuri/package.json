@@ -5,12 +5,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:main": "cross-env NODE_ENV=development electron ./main/main.js",
     "dev:renderer": "cross-env NODE_ENV=development webpack-dev-server",
-    "start":
-      "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
+    "start": "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
     "build:renderer": "cross-env NODE_ENV=production webpack"
   },
   "author": "blukai",
   "dependencies": {
+    "dexie": "^2.0.1",
     "electron": "1.7.11",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",

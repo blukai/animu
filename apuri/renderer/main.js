@@ -35,11 +35,11 @@ injectGlobal`
 // ----
 
 render(
-  <Provider {...stores}>
-    <HashRouter>
+  <HashRouter>
+    <Provider {...stores}>
       <App />
-    </HashRouter>
-  </Provider>,
+    </Provider>
+  </HashRouter>,
   document.getElementById('react-root')
 )
 
