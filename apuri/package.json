@@ -4,9 +4,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:main": "cross-env NODE_ENV=development electron ./main/main.js",
-    "dev:renderer": "cross-env NODE_ENV=development webpack-dev-server",
-    "start": "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
-    "build:renderer": "cross-env NODE_ENV=production webpack"
+    "dev:renderer":
+      "cross-env NODE_ENV=development webpack-dev-server --config ./renderer/.webpack/config.js",
+    "start":
+      "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
+    "build:renderer":
+      "cross-env NODE_ENV=production webpack --config ./renderer/.webpack/config.js"
   },
   "author": "blukai",
   "dependencies": {

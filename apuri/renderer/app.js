@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
 import { object } from 'prop-types'
-import { inject, observer } from 'mobx-react'
+import { inject } from 'mobx-react'
 
-@inject('appStore')
-@observer
+@inject('dexie')
 class App extends Component {
   static propTypes = {
-    appStore: object.isRequired
+    dexie: object.isRequired
   }
 
   state = {
-    loading: true,
+    loading: false,
     error: null
   }
 
   async componentDidMount() {
     try {
+      this.setState({ loading: true })
+
       const isAnimeDBEmpty = await this.isAnimeDBEmpty()
       if (isAnimeDBEmpty) {
         const at = await this.fetchAnimeTitles()
@@ -30,7 +31,7 @@ class App extends Component {
 
   isAnimeDBEmpty = () =>
     new Promise((resolve, reject) => {
-      this.props.appStore.db.anime
+      this.props.dexie.anime
         .count()
         .then(res => {
           resolve(res === 0)
@@ -61,7 +62,7 @@ class App extends Component {
         })
       }, [])
 
-      this.props.appStore.db.anime
+      this.props.dexie.anime
         .bulkAdd(items)
         .then(() => {
           resolve()
