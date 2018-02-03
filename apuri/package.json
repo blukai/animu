@@ -2,7 +2,7 @@
   "name": "animu",
   "version": "0.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watch",
     "dev:main": "cross-env NODE_ENV=development electron ./main/main.js",
     "dev:renderer":
       "cross-env NODE_ENV=development webpack-dev-server --config ./renderer/.webpack/config.js",
@@ -29,12 +29,26 @@
     "@babel/plugin-proposal-decorators": "^7.0.0-beta.39",
     "@babel/preset-env": "^7.0.0-beta.39",
     "@babel/preset-react": "^7.0.0-beta.39",
+    "babel-jest": "^22.1.0",
     "babel-loader": "^8.0.0-beta.0",
     "concurrently": "^3.5.1",
     "cross-env": "^5.1.3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.1.4",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.11.1",
     "why-did-you-update": "^0.1.0"
+  },
+  "jest": {
+    "setupFiles": ["./renderer/.jest/setup.js"]
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": ["@babel/preset-env", "@babel/preset-react"]
+      }
+    }
   }
 }

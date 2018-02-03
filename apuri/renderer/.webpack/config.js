@@ -33,9 +33,7 @@ const config = {
               [
                 '@babel/preset-env',
                 {
-                  targets: {
-                    node: 'current'
-                  },
+                  targets: { node: 'current' },
                   modules: false
                 }
               ],
@@ -57,7 +55,7 @@ const config = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolve(__dirname, '..//index.html')
+      template: resolve(__dirname, '../index.html')
     }),
     new DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV),
