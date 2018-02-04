@@ -1,0 +1,9 @@
+{
+  "prettier.ignorePath": "apuri/.prettierignore",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true
+  }
+}
