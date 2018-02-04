@@ -3,13 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "test": "jest --watch",
+    "storybook": "start-storybook -p 9000 -c ./renderer/.storybook",
     "dev:main": "cross-env NODE_ENV=development electron ./main/main.js",
-    "dev:renderer":
-      "cross-env NODE_ENV=development webpack-dev-server --config ./renderer/.webpack/config.js",
-    "start":
-      "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
-    "build:renderer":
-      "cross-env NODE_ENV=production webpack --config ./renderer/.webpack/config.js"
+    "dev:renderer": "cross-env NODE_ENV=development webpack-dev-server --config ./renderer/.webpack/config.js",
+    "start": "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
+    "build:renderer": "cross-env NODE_ENV=production webpack --config ./renderer/.webpack/config.js"
   },
   "author": "blukai",
   "dependencies": {
@@ -20,6 +18,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-feather": "^1.0.8",
     "react-router-dom": "^4.2.2",
     "styled-components": "^3.1.4"
   },
@@ -29,6 +28,8 @@
     "@babel/plugin-proposal-decorators": "^7.0.0-beta.39",
     "@babel/preset-env": "^7.0.0-beta.39",
     "@babel/preset-react": "^7.0.0-beta.39",
+    "@storybook/react": "^3.3.12",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^22.1.0",
     "babel-loader": "^8.0.0-beta.0",
     "concurrently": "^3.5.1",
@@ -37,18 +38,12 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.1.4",
+    "jest-styled-components": "^4.11.0-1",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.11.1",
     "why-did-you-update": "^0.1.0"
   },
   "jest": {
-    "setupFiles": ["./renderer/.jest/setup.js"]
-  },
-  "babel": {
-    "env": {
-      "test": {
-        "presets": ["@babel/preset-env", "@babel/preset-react"]
-      }
-    }
+    "setupTestFrameworkScriptFile": "./renderer/.jest/setup.js"
   }
 }

@@ -36,12 +36,7 @@ const config = {
                   targets: { node: 'current' },
                   modules: false
                 }
-              ],
-              '@babel/preset-react'
-            ],
-            plugins: [
-              '@babel/plugin-proposal-decorators',
-              ['@babel/plugin-proposal-class-properties', { loose: true }]
+              ]
             ],
             // This is a feature of `babel-loader` for webpack (not Babel itself).
             // It enables caching results in ./node_modules/.cache/babel-loader/

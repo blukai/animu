@@ -1,9 +1,11 @@
 import React from 'react'
-import { configure, shallow } from 'enzyme'
+import { configure, shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import 'jest-styled-components'
 
 configure({ adapter: new Adapter() })
 
 // Make React and Enzyme functions available in all test files without importing
 global.React = React
 global.shallow = shallow
+global.mount = mount
