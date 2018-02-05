@@ -10,7 +10,6 @@ const createWindow = () => {
   win = new BrowserWindow({
     show: false,
     frame: false,
-    resizable: false,
     width: 300,
     height: 350,
     // cors'ish
@@ -19,15 +18,22 @@ const createWindow = () => {
     }
   })
 
-  if (NODE_ENV === 'development') {
-    // Open the DevTools.
-    win.webContents.openDevTools()
-  }
-
   win.loadURL('http://localhost:8000')
 
   win.once('ready-to-show', () => {
     win.show()
+  })
+
+  const { webContents } = win
+
+  if (NODE_ENV === 'development') {
+    // Open the DevTools.
+    webContents.openDevTools()
+  }
+
+  webContents.on('did-finish-load', () => {
+    webContents.setZoomFactor(1)
+    webContents.setLayoutZoomLevelLimits(0, 0)
   })
 
   win.on('closed', () => {

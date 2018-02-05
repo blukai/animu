@@ -44,6 +44,9 @@
     "why-did-you-update": "^0.1.0"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./renderer/.jest/setup.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/renderer/.jest/setup.js",
+    "moduleNameMapper": {
+      "electron": "<rootDir>/renderer/.jest/electron.js"
+    }
   }
 }
