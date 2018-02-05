@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { object } from 'prop-types'
 import { inject } from 'mobx-react'
+import Titlebar from './titlebar'
 
-@inject('dexie')
+@inject('dexie', 'win')
 class App extends Component {
   static propTypes = {
-    dexie: object.isRequired
+    dexie: object.isRequired,
+    win: object.isRequired
   }
 
   state = {
@@ -75,16 +77,19 @@ class App extends Component {
   render() {
     const { error, loading } = this.state
 
-    return (
-      <section style={{ textAlign: 'center' }}>
-        {error ? (
-          error.message || 'something went wrong'
-        ) : loading ? (
-          'LOADING'
-        ) : (
-          <section style={{ WebkitAppRegion: 'drag' }}>🌚</section>
-        )}
-      </section>
+    return error ? (
+      error.message || 'something went wrong'
+    ) : loading ? (
+      'LOADING'
+    ) : (
+      <div>
+        <Titlebar
+          minimize={this.props.win.minimize}
+          zoom={this.props.win.zoom}
+          close={this.props.win.close}
+        />
+        🌚
+      </div>
     )
   }
 }

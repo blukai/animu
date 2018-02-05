@@ -9,6 +9,8 @@ const { NODE_ENV, BUCKET_URL, PORT } = process.env
 // ----
 
 const config = {
+  target: 'electron-renderer',
+
   entry: [resolve(__dirname, '..//main.js')],
 
   output: {
