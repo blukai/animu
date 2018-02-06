@@ -62,7 +62,9 @@ const config = {
     })
   ],
 
-  bail: true // don't attempt to continue if there are any errors.
+  bail: true, // don't attempt to continue if there are any errors.
+
+  devtool: 'cheap-module-source-map'
 }
 
 // ----

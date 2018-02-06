@@ -4,7 +4,8 @@ import { render } from 'react-dom'
 import { Provider } from 'mobx-react'
 import { HashRouter } from 'react-router-dom'
 
-import { injectGlobal } from 'styled-components'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import Reboot from 'material-ui/Reboot'
 
 import stores from './stores'
 
@@ -21,23 +22,24 @@ if (NODE_ENV !== 'production') {
 
 // ----
 
-injectGlobal`
-  html, body, #react-root {
-    height: 100%;
-    overflow: hidden;
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    background: {
+      default: '#000'
+    }
   }
-
-  body {
-    margin: 0;
-  }
-`
+})
 
 // ----
 
 render(
   <HashRouter>
     <Provider {...stores}>
-      <App />
+      <MuiThemeProvider theme={theme}>
+        <Reboot />
+        <App />
+      </MuiThemeProvider>
     </Provider>
   </HashRouter>,
   document.getElementById('react-root')

@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, globalShortcut } = require('electron')
 
 const { NODE_ENV } = process.env
 
@@ -9,9 +9,10 @@ let win
 const createWindow = () => {
   win = new BrowserWindow({
     show: false,
-    frame: false,
     width: 300,
     height: 350,
+    backgroundColor: '#000',
+    autoHideMenuBar: true,
     // cors'ish
     webPreferences: {
       webSecurity: false
@@ -42,6 +43,9 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     win = null
   })
+
+  // Remove the menu bar
+  win.setMenu(null)
 }
 
 app.on('ready', createWindow)

@@ -1,3 +1,3 @@
 export const remote = {
-  getCurrentWindow: jest.fn()
+  // getCurrentWindow: jest.fn()
 }

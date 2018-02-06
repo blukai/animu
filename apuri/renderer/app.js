@@ -1,13 +1,42 @@
 import React, { Component } from 'react'
 import { object } from 'prop-types'
 import { inject } from 'mobx-react'
-import Titlebar from './titlebar'
+import { withStyles } from 'material-ui/styles'
 
-@inject('dexie', 'win')
+// ----
+
+const styles = theme => ({
+  '@global': {
+    body: {
+      fontFamily: [
+        'Segoe UI',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Helvetica',
+        'Arial',
+        'sans-serif',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Apple Color Emoji'
+      ], //theme.typography.fontFamily
+      fontSize: theme.typography.fontSize,
+      color: theme.palette.text.primary
+    },
+    'html, body, #root': {
+      height: '100%',
+      width: '100%'
+    }
+  }
+})
+
+// ----
+
+@withStyles(styles)
+@inject('dexie')
 class App extends Component {
   static propTypes = {
-    dexie: object.isRequired,
-    win: object.isRequired
+    classes: object.isRequired,
+    dexie: object.isRequired
   }
 
   state = {
@@ -82,14 +111,7 @@ class App extends Component {
     ) : loading ? (
       'LOADING'
     ) : (
-      <div>
-        <Titlebar
-          minimize={this.props.win.minimize}
-          zoom={this.props.win.zoom}
-          close={this.props.win.close}
-        />
-        🌚
-      </div>
+      <>'🌚'</>
     )
   }
 }
