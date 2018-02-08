@@ -9,8 +9,8 @@ let win
 const createWindow = () => {
   win = new BrowserWindow({
     show: false,
-    width: 300,
-    height: 350,
+    width: 350,
+    height: 400,
     backgroundColor: '#000',
     autoHideMenuBar: true,
     // cors'ish
@@ -24,6 +24,9 @@ const createWindow = () => {
   win.once('ready-to-show', () => {
     win.show()
   })
+
+  // Remove the menu bar
+  win.setMenu(null)
 
   const { webContents } = win
 
@@ -43,9 +46,6 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     win = null
   })
-
-  // Remove the menu bar
-  win.setMenu(null)
 }
 
 app.on('ready', createWindow)
