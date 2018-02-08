@@ -11,27 +11,11 @@ import stores from './stores'
 
 import App from './app'
 
-// ----
-
-const { NODE_ENV } = process.env
-
-if (NODE_ENV !== 'production') {
-  const { whyDidYouUpdate } = require('why-did-you-update')
-  whyDidYouUpdate(React)
-}
-
-// ----
-
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
-    background: {
-      default: '#000'
-    }
+    type: 'dark'
   }
 })
-
-// ----
 
 render(
   <HashRouter>

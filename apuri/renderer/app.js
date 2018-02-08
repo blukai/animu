@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { object } from 'prop-types'
 import { inject } from 'mobx-react'
 import { withStyles } from 'material-ui/styles'
+import Appbar from './components/appbar'
 
 // ----
 
@@ -111,7 +112,10 @@ class App extends Component {
     ) : loading ? (
       'LOADING'
     ) : (
-      <>'🌚'</>
+      <>
+        <Appbar />
+        🌚
+      </>
     )
   }
 }
