@@ -9,20 +9,11 @@ import Appbar from './components/appbar'
 const styles = theme => ({
   '@global': {
     body: {
-      fontFamily: [
-        'Segoe UI',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        'Helvetica',
-        'Arial',
-        'sans-serif',
-        'Segoe UI Emoji',
-        'Segoe UI Symbol',
-        'Apple Color Emoji'
-      ], //theme.typography.fontFamily
+      fontFamily: theme.typography.fontFamily,
       fontSize: theme.typography.fontSize,
       color: theme.palette.text.primary
     },
+
     'html, body, #root': {
       height: '100%',
       width: '100%'
