@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { object, func, bool } from 'prop-types'
+import { object } from 'prop-types'
 
 import { withStyles } from 'material-ui/styles'
 import IconButton from 'material-ui/IconButton'
@@ -7,8 +7,8 @@ import IconButton from 'material-ui/IconButton'
 const styles = theme => ({
   root: {
     fontSize: 20,
-    height: 24,
-    width: 24,
+    height: 22,
+    width: 22,
     margin: `0 ${theme.spacing.unit}px`
   }
 })
@@ -16,25 +16,14 @@ const styles = theme => ({
 @withStyles(styles)
 class Button extends Component {
   static propTypes = {
-    classes: object.isRequired,
-    onClick: func,
-    disabled: bool
-  }
-
-  static defaultProps = {
-    onClick() {},
-    disabled: false
+    classes: object.isRequired
   }
 
   render() {
-    const { classes, onClick, disabled, children } = this.props
+    const { classes, children, ...other } = this.props
 
     return (
-      <IconButton
-        classes={{ root: classes.root }}
-        onClick={onClick}
-        disabled={disabled}
-      >
+      <IconButton {...other} classes={{ root: classes.root }}>
         {children}
       </IconButton>
     )
