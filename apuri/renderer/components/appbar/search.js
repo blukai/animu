@@ -48,11 +48,11 @@ const styles = theme => ({
 })
 
 @withStyles(styles)
-@inject('dexie')
+@inject('anime')
 class Search extends Component {
   static propTypes = {
     classes: object.isRequired,
-    dexie: object.isRequired
+    anime: object.isRequired
   }
 
   // ----
@@ -73,7 +73,7 @@ class Search extends Component {
     this.input.focus()
   }
 
-  handleChange = event => {
+  handleChange = async event => {
     const { value: next } = event.target
     const { value: prev } = this.state
 
@@ -81,7 +81,14 @@ class Search extends Component {
       this.setState({ value: next })
 
       if (next.trim() !== prev.trim()) {
-        this.getSuggestions()
+        try {
+          const suggestions = await this.props.anime.getSearchSuggestions(
+            next.trim()
+          )
+          this.setState({ suggestions })
+        } catch (err) {
+          console.error(err)
+        }
       }
     } else {
       this.clear()
@@ -98,20 +105,6 @@ class Search extends Component {
 
   clear = () => {
     this.setState({ value: '', suggestions: [] })
-  }
-
-  getSuggestions = () => {
-    this.props.dexie.anime
-      .where('titles')
-      .startsWithIgnoreCase(this.state.value.trim())
-      .limit(10)
-      .toArray()
-      .then(items => {
-        this.setState({ suggestions: items })
-      })
-      .catch(err => {
-        console.error(err)
-      })
   }
 
   // ----
@@ -167,7 +160,7 @@ class Search extends Component {
                 key={id * Math.random()}
                 classes={{ root: classes.itemRoot }}
               >
-                {JSON.stringify(titles)}
+                {id} - {JSON.stringify(titles)}
               </MenuItem>
             ))}
         </Paper>

@@ -1,5 +1,5 @@
-import dexie from './dexie'
+import { anime } from './dexie'
 
 export default {
-  dexie
+  anime
 }
