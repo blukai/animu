@@ -5,8 +5,12 @@ import { withStyles } from 'material-ui/styles'
 import Input, { InputAdornment } from 'material-ui/Input'
 import SearchIcon from 'material-ui-icons/Search'
 import ClearIcon from 'material-ui-icons/Clear'
+import Paper from 'material-ui/Paper'
+import { MenuItem } from 'material-ui/Menu'
+import { inject } from 'mobx-react'
 
 import Button from './button'
+import { styles as appbarStyles } from './appbar'
 
 const styles = theme => ({
   inputRoot: {
@@ -16,33 +20,72 @@ const styles = theme => ({
 
     backgroundColor: theme.palette.background.default,
     fontSize: 13,
-    height: 30
+    height: 28
   },
 
   inputAdornmentRoot: {
     maxHeight: 'none'
+  },
+
+  wrapper: {
+    position: 'relative',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center'
+  },
+
+  paperRoot: {
+    position: 'absolute',
+    width: '100%',
+    borderRadius: 0,
+    top: appbarStyles.appbarRoot.height
+  },
+
+  itemRoot: {
+    padding: '4px 10px',
+    fontSize: 14
   }
 })
 
 @withStyles(styles)
+@inject('dexie')
 class Search extends Component {
   static propTypes = {
-    classes: object.isRequired
+    classes: object.isRequired,
+    dexie: object.isRequired
   }
 
-  input = null
+  // ----
 
   state = {
     value: '',
-    focused: false
+    focused: false,
+    suggestions: []
   }
+
+  // ----
+
+  input = null
+
+  // ----
 
   preventFocusLose = () => {
     this.input.focus()
   }
 
   handleChange = event => {
-    this.setState({ value: event.target.value })
+    const { value: next } = event.target
+    const { value: prev } = this.state
+
+    if (next.length > 0) {
+      this.setState({ value: next })
+
+      if (next.trim() !== prev.trim()) {
+        this.getSuggestions()
+      }
+    } else {
+      this.clear()
+    }
   }
 
   handleFocus = () => {
@@ -54,48 +97,81 @@ class Search extends Component {
   }
 
   clear = () => {
-    this.setState({ value: '' })
+    this.setState({ value: '', suggestions: [] })
   }
+
+  getSuggestions = () => {
+    this.props.dexie.anime
+      .where('titles')
+      .startsWithIgnoreCase(this.state.value.trim())
+      .limit(10)
+      .toArray()
+      .then(items => {
+        this.setState({ suggestions: items })
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+  // ----
 
   render() {
     const { classes } = this.props
 
     return (
-      <Input
-        classes={{ root: classes.inputRoot }}
-        placeholder="Search"
-        value={this.state.value}
-        inputRef={input => {
-          this.input = input
-        }}
-        onChange={this.handleChange}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        startAdornment={
-          <InputAdornment classes={{ root: classes.inputAdornmentRoot }}>
-            <Button
-              classes={{ root: this.props.classes.buttonRoot }}
+      <div className={classes.wrapper}>
+        {/* text field */}
+        <Input
+          classes={{ root: classes.inputRoot }}
+          placeholder="Search"
+          value={this.state.value}
+          inputRef={input => {
+            this.input = input
+          }}
+          onChange={this.handleChange}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          startAdornment={
+            <InputAdornment classes={{ root: classes.inputAdornmentRoot }}>
+              <Button
+                disableRipple
+                onClick={this.preventFocusLose}
+                style={{ cursor: 'default' }}
+              >
+                <SearchIcon
+                  color={this.state.focused ? 'inherit' : 'disabled'}
+                />
+              </Button>
+            </InputAdornment>
+          }
+          endAdornment={
+            <InputAdornment
+              classes={{ root: classes.inputAdornmentRoot }}
               onClick={this.preventFocusLose}
             >
-              <SearchIcon color={this.state.focused ? 'inherit' : 'disabled'} />
-            </Button>
-          </InputAdornment>
-        }
-        endAdornment={
-          <InputAdornment
-            classes={{ root: classes.inputAdornmentRoot }}
-            onClick={this.preventFocusLose}
-          >
-            <Button
-              classes={{ root: this.props.classes.buttonRoot }}
-              disabled={this.state.value.length === 0}
-              onClick={this.clear}
-            >
-              {this.state.value && <ClearIcon />}
-            </Button>
-          </InputAdornment>
-        }
-      />
+              <Button
+                disabled={this.state.value.length === 0}
+                onClick={this.clear}
+              >
+                {this.state.value && <ClearIcon />}
+              </Button>
+            </InputAdornment>
+          }
+        />
+        {/* suggestions */}
+        <Paper classes={{ root: classes.paperRoot }}>
+          {this.state.value.length !== 0 &&
+            this.state.suggestions.slice().map(({ id, titles }) => (
+              <MenuItem
+                key={id * Math.random()}
+                classes={{ root: classes.itemRoot }}
+              >
+                {JSON.stringify(titles)}
+              </MenuItem>
+            ))}
+        </Paper>
+      </div>
     )
   }
 }
