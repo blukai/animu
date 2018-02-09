@@ -80,11 +80,10 @@ class Search extends Component {
     if (next.length > 0) {
       this.setState({ value: next })
 
-      if (next.trim() !== prev.trim()) {
+      const nt = next.trim()
+      if (nt !== prev.trim() && nt.length >= 3) {
         try {
-          const suggestions = await this.props.anime.getSearchSuggestions(
-            next.trim()
-          )
+          const suggestions = await this.props.anime.getSearchSuggestions(nt)
           this.setState({ suggestions })
         } catch (err) {
           console.error(err)
