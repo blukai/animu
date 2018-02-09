@@ -39,10 +39,12 @@ class App extends Component {
   async componentDidMount() {
     try {
       this.setState({ loading: true })
-
-      const isAnimeDBEmpty = await this.props.anime.IsDBEmpty()
+      const { anime } = this.props
+      const isAnimeDBEmpty = await anime.isDBEmpty()
       if (isAnimeDBEmpty) {
-        this.props.anime.DumpAnimeTitles()
+        const at = await anime.fetchTitles()
+        const tfd = anime.transformTitles(at)
+        await anime.saveTitles(tfd)
       }
     } catch (error) {
       this.setState({ error })

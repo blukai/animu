@@ -17,7 +17,7 @@ class IndexedDB extends Dexie {
 // ----
 
 class Anime extends IndexedDB {
-  IsDBEmpty = () =>
+  isDBEmpty = () =>
     new Promise((resolve, reject) => {
       this.anime
         .count()
@@ -31,7 +31,7 @@ class Anime extends IndexedDB {
 
   // ----
 
-  fetchAnimeTitles = () =>
+  fetchTitles = () =>
     new Promise((resolve, reject) => {
       fetch(`${BUCKET_URL}/anime-titles.json`)
         .then(res => res.json())
@@ -41,7 +41,7 @@ class Anime extends IndexedDB {
         })
     })
 
-  transformAnimeTitles = at =>
+  transformTitles = at =>
     at.slice().reduce((prev, { id, titles }) => {
       return prev.concat({
         id,
@@ -57,7 +57,7 @@ class Anime extends IndexedDB {
       })
     }, [])
 
-  storeAnimeTitles = at =>
+  saveTitles = at =>
     new Promise((resolve, reject) => {
       this.anime
         .bulkAdd(at)
@@ -69,24 +69,13 @@ class Anime extends IndexedDB {
         })
     })
 
-  // combination of fetch, transform and store
-  DumpAnimeTitles = async () => {
-    try {
-      const at = await this.fetchAnimeTitles()
-      const transformed = this.transformAnimeTitles(at)
-      await this.storeAnimeTitles(transformed)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   // ----
 
-  getSearchSuggestions = key =>
+  getSearchSuggestions = query =>
     new Promise((resolve, reject) => {
       this.anime
         .where('titles')
-        .startsWithIgnoreCase(key)
+        .startsWithIgnoreCase(query)
         .limit(10)
         .toArray()
         .then(items => {

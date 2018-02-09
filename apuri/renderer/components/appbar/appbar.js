@@ -11,7 +11,7 @@ export const styles = {
   appbarRoot: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 42
+    height: 40
   }
 }
 
