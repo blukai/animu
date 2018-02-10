@@ -9,6 +9,10 @@ class Search extends Component {
   render() {
     const { match } = this.props
 
+    // TODO
+    // I guess it will be backend dependent,
+    // it should be good'ish search what considers string metrics and other stuff
+
     return `search query ${match.params.query}`
   }
 }
