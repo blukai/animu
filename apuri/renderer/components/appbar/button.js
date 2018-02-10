@@ -4,12 +4,14 @@ import { object } from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import IconButton from 'material-ui/IconButton'
 
+import { inputHeight } from './search'
+
 const styles = theme => ({
   root: {
     fontSize: 20,
-    height: 22,
-    width: 22,
-    margin: `0 ${theme.spacing.unit}px`
+    height: inputHeight,
+    width: inputHeight,
+    margin: 0
   }
 })
 

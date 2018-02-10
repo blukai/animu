@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { object } from 'prop-types'
 import { inject } from 'mobx-react'
 import { withStyles } from 'material-ui/styles'
+import { Switch, Route } from 'react-router-dom'
+
 import Appbar from './components/appbar'
+
+import Anime from './pages/anime'
+import Search from './pages/search'
 
 // ----
 
@@ -63,7 +68,11 @@ class App extends Component {
     ) : (
       <>
         <Appbar />
-        🌚
+        <Switch>
+          <Route exact path="/" render={() => '🌚'} />
+          <Route path="/anime/:id" component={Anime} />
+          <Route path="/search/:query" component={Search} />
+        </Switch>
       </>
     )
   }

@@ -12,8 +12,12 @@ import { InputAdornment } from 'material-ui/Input'
 
 import { inject } from 'mobx-react'
 
+import { withRouter } from 'react-router-dom'
+
 import Button from './button'
-import { styles as appbarStyles } from './appbar'
+import { appbarHeight } from './appbar'
+
+export const inputHeight = 28
 
 const styles = theme => ({
   // autosuggest
@@ -27,7 +31,7 @@ const styles = theme => ({
     borderRadius: 2,
     fontSize: 13,
     height: 28,
-    padding: `6px ${theme.spacing.unit}px`
+    padding: `6px 0`
   },
 
   container: {
@@ -36,14 +40,14 @@ const styles = theme => ({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    marginRight: theme.spacing.unit
+    margin: `0 ${theme.spacing.unit / 2}px`
   },
 
   suggestionsContainer: {
     position: 'absolute',
     left: 0,
     right: 0,
-    top: appbarStyles.appbarRoot.height
+    top: appbarHeight
   },
 
   suggestionsList: {
@@ -59,8 +63,13 @@ const styles = theme => ({
   },
 
   suggestionItem: {
-    padding: '4px 10px',
+    padding: `6px ${theme.spacing.unit}px`,
     borderRadius: 2
+  },
+
+  suggestionItemSearch: {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 0
   },
 
   suggestionItemHighlighted: {
@@ -76,20 +85,25 @@ const styles = theme => ({
     fontWeight: theme.typography.fontWeightLight
   },
 
+  inputAdornment: {
+    margin: `0 ${theme.spacing.unit / 2}px`
+  },
+
   inputAdornmentButton: {
-    margin: 0,
     cursor: 'default'
   }
 })
 
 // ----
 
-@withStyles(styles)
+@withRouter
 @inject('anime')
+@withStyles(styles)
 class Search extends Component {
   static propTypes = {
     classes: object.isRequired,
-    anime: object.isRequired
+    anime: object.isRequired,
+    history: object.isRequired
   }
 
   // ----
@@ -97,7 +111,8 @@ class Search extends Component {
   state = {
     value: '',
     suggestions: [],
-    focused: false
+    focused: false.className,
+    query: ''
   }
 
   // ----
@@ -124,7 +139,10 @@ class Search extends Component {
         InputProps={{
           ...other,
           startAdornment: (
-            <InputAdornment position="start">
+            <InputAdornment
+              position="start"
+              classes={{ root: classes.inputAdornment }}
+            >
               <Button disableRipple className={classes.inputAdornmentButton}>
                 <SearchIcon
                   color={this.state.focused ? 'inherit' : 'disabled'}
@@ -137,7 +155,7 @@ class Search extends Component {
     )
   }
 
-  renderSuggestionsContainer = ({ containerProps, children }) => {
+  renderSuggestionsContainer = ({ containerProps, children, query }) => {
     const { classes } = this.props
 
     return (
@@ -156,17 +174,20 @@ class Search extends Component {
 
     return (
       <ListItem
-        classes={{ root: classes.suggestionItem }}
-        className={isHighlighted ? classes.suggestionItemHighlighted : ''}
+        key={id}
         button
+        classes={{ root: classes.suggestionItem }}
+        className={`${isHighlighted ? classes.suggestionItemHighlighted : ''} ${
+          id === 0 ? classes.suggestionItemSearch : ''
+        }`}
       >
         <ListItemText
-          primary={jpt}
-          secondary={eno}
           classes={{
             primary: classes.suggestionItemPrimaryText,
             secondary: classes.suggestionItemSecondaryText
           }}
+          primary={jpt || `Search for "${query}"`}
+          secondary={eno}
         />
       </ListItem>
     )
@@ -174,15 +195,27 @@ class Search extends Component {
 
   // ----
 
-  getSuggestionValue = ({ titles }) => titles[0]
+  getSuggestionValue = ({ titles }) => titles[0] || this.state.query
 
   handleSuggestionsFetchRequested = async ({ value }) => {
     const { anime } = this.props
 
     try {
       const suggestions = await anime.getSearchSuggestions(value.trim())
-      this.setState({
-        suggestions
+
+      suggestions.unshift({
+        id: 0,
+        titles: []
+      })
+
+      this.setState(({ query }) => {
+        const newState = { suggestions }
+        // this is important to handle the value of the first item,
+        // that represents a search query, in suggestion list
+        if (query !== value) {
+          newState.query = value
+        }
+        return newState
       })
     } catch (err) {
       console.error(err)
@@ -194,19 +227,18 @@ class Search extends Component {
   }
 
   handleChange = (event, { newValue: value }) => {
-    this.setState({
-      value
-    })
+    this.setState({ value })
   }
 
   handleSuggestionSelected = (event, { suggestion: { id }, method }) => {
-    console.log(method, id)
-    // TODO: go to anime page
-  }
-
-  handleKeyDown = ({ target: { value }, key }) => {
-    console.log(value, key)
-    // TODO: go to search page
+    if (method === 'enter' || method === 'click') {
+      const { history } = this.props
+      const { pathname: from } = history.location
+      const to = id === 0 ? `/search/${this.state.query}` : `/anime/${id}`
+      if (to !== from) {
+        history.push(to)
+      }
+    }
   }
 
   // ----
@@ -235,6 +267,7 @@ class Search extends Component {
           onKeyDown: this.handleKeyDown
         }}
         onSuggestionSelected={this.handleSuggestionSelected}
+        highlightFirstSuggestion
       />
     )
   }
