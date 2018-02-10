@@ -4,6 +4,7 @@ import { inject } from 'mobx-react'
 import { withStyles } from 'material-ui/styles'
 import { Switch, Route } from 'react-router-dom'
 
+import Container from './components/container'
 import Appbar from './components/appbar'
 
 import Anime from './pages/anime'
@@ -41,7 +42,7 @@ class App extends Component {
     error: null
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     try {
       this.setState({ loading: true })
       const { anime } = this.props
@@ -59,21 +60,16 @@ class App extends Component {
   }
 
   render() {
-    const { error, loading } = this.state
-
-    return error ? (
-      error.message || 'something went wrong'
-    ) : loading ? (
-      'LOADING'
-    ) : (
-      <>
+    return (
+      <Container loading={this.state.loading} error={this.state.error}>
         <Appbar />
         <Switch>
           <Route exact path="/" render={() => '🌚'} />
-          <Route path="/anime/:id" component={Anime} />
+          <Route exact path="/anime/:id" component={Anime} />
           <Route path="/search/:query" component={Search} />
+          <Route path="*" render={() => 'FourOhFour'} />
         </Switch>
-      </>
+      </Container>
     )
   }
 }
