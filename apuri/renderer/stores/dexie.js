@@ -45,15 +45,20 @@ class Anime extends IndexedDB {
     at.slice().reduce((prev, { id, titles }) => {
       return prev.concat({
         id,
-        titles: titles.slice().reduce((prev, { type, text }) => {
-          const next = prev
-          if (type === 'main') {
-            prev.unshift(text)
-          } else {
-            prev.push(text)
-          }
-          return next
-        }, [])
+        titles: titles.slice().reduce(
+          (prev, { type, lang, text }) => {
+            const next = prev
+            if (type === 'main') {
+              next.splice(0, 1, text)
+            } else if (type === 'official' && lang === 'en') {
+              next.splice(1, 1, text)
+            } else {
+              next.push(text)
+            }
+            return next
+          },
+          ['' /* x-jat main */, '' /* en official */]
+        )
       })
     }, [])
 

@@ -1,51 +1,88 @@
 import React, { Component } from 'react'
 import { object } from 'prop-types'
 
+import Autosuggest from 'react-autosuggest'
+
 import { withStyles } from 'material-ui/styles'
-import Input, { InputAdornment } from 'material-ui/Input'
+import TextField from 'material-ui/TextField'
 import SearchIcon from 'material-ui-icons/Search'
-import ClearIcon from 'material-ui-icons/Clear'
 import Paper from 'material-ui/Paper'
-import { MenuItem } from 'material-ui/Menu'
+import List, { ListItem, ListItemText } from 'material-ui/List'
+import { InputAdornment } from 'material-ui/Input'
+
 import { inject } from 'mobx-react'
 
 import Button from './button'
 import { styles as appbarStyles } from './appbar'
 
 const styles = theme => ({
-  inputRoot: {
+  // autosuggest
+
+  input: {
     '&:before, &:after': {
       content: 'none'
     },
 
     backgroundColor: theme.palette.background.default,
+    borderRadius: 2,
     fontSize: 13,
-    height: 28
+    height: 28,
+    padding: `6px ${theme.spacing.unit}px`
   },
 
-  inputAdornmentRoot: {
-    maxHeight: 'none'
-  },
-
-  wrapper: {
+  container: {
     position: 'relative',
-    height: '100%',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    marginRight: theme.spacing.unit
   },
 
-  paperRoot: {
+  suggestionsContainer: {
     position: 'absolute',
-    width: '100%',
-    borderRadius: 0,
+    left: 0,
+    right: 0,
     top: appbarStyles.appbarRoot.height
   },
 
-  itemRoot: {
+  suggestionsList: {
+    listStyle: 'none',
+    margin: 0,
+    padding: 0
+  },
+
+  // material ui
+
+  suggestionList: {
+    padding: 0
+  },
+
+  suggestionItem: {
     padding: '4px 10px',
-    fontSize: 14
+    borderRadius: 2
+  },
+
+  suggestionItemHighlighted: {
+    backgroundColor: theme.palette.action.selected
+  },
+
+  suggestionItemPrimaryText: {
+    fontSize: 13
+  },
+
+  suggestionItemSecondaryText: {
+    fontSize: 12,
+    fontWeight: theme.typography.fontWeightLight
+  },
+
+  inputAdornmentButton: {
+    margin: 0,
+    cursor: 'default'
   }
 })
+
+// ----
 
 @withStyles(styles)
 @inject('anime')
@@ -59,51 +96,117 @@ class Search extends Component {
 
   state = {
     value: '',
-    focused: false,
-    suggestions: []
+    suggestions: [],
+    focused: false
   }
 
   // ----
 
-  input = null
+  renderInput = ({ ref, ...other }) => {
+    const { classes } = this.props
+
+    return (
+      <TextField
+        fullWidth
+        inputRef={ref}
+        // Properties applied to the native input element.
+        inputProps={{
+          placeholder: 'Search Anime',
+          // focus, blur to control search icon color
+          onFocus: () => {
+            this.setState({ focused: true })
+          },
+          onBlur: () => {
+            this.setState({ focused: false })
+          }
+        }}
+        // Properties applied to the Input element.
+        InputProps={{
+          ...other,
+          startAdornment: (
+            <InputAdornment position="start">
+              <Button disableRipple className={classes.inputAdornmentButton}>
+                <SearchIcon
+                  color={this.state.focused ? 'inherit' : 'disabled'}
+                />
+              </Button>
+            </InputAdornment>
+          )
+        }}
+      />
+    )
+  }
+
+  renderSuggestionsContainer = ({ containerProps, children }) => {
+    const { classes } = this.props
+
+    return (
+      <Paper {...containerProps} square>
+        <List classes={{ root: classes.suggestionList }}>{children}</List>
+      </Paper>
+    )
+  }
+
+  renderSuggestion = ({ id, titles }, { query, isHighlighted }) => {
+    // those indexes are reserved by `transformTitles`
+    const jpt = titles[0] // japanese transcription
+    const eno = titles[1] // english official
+
+    const { classes } = this.props
+
+    return (
+      <ListItem
+        classes={{ root: classes.suggestionItem }}
+        className={isHighlighted ? classes.suggestionItemHighlighted : ''}
+        button
+      >
+        <ListItemText
+          primary={jpt}
+          secondary={eno}
+          classes={{
+            primary: classes.suggestionItemPrimaryText,
+            secondary: classes.suggestionItemSecondaryText
+          }}
+        />
+      </ListItem>
+    )
+  }
 
   // ----
 
-  preventFocusLose = () => {
-    this.input.focus()
-  }
+  getSuggestionValue = ({ titles }) => titles[0]
 
-  handleChange = async event => {
-    const { value: next } = event.target
-    const { value: prev } = this.state
+  handleSuggestionsFetchRequested = async ({ value }) => {
+    const { anime } = this.props
 
-    if (next.length > 0) {
-      this.setState({ value: next })
-
-      const nt = next.trim()
-      if (nt !== prev.trim() && nt.length >= 3) {
-        try {
-          const suggestions = await this.props.anime.getSearchSuggestions(nt)
-          this.setState({ suggestions })
-        } catch (err) {
-          console.error(err)
-        }
-      }
-    } else {
-      this.clear()
+    try {
+      const suggestions = await anime.getSearchSuggestions(value.trim())
+      this.setState({
+        suggestions
+      })
+    } catch (err) {
+      console.error(err)
     }
   }
 
-  handleFocus = () => {
-    this.setState({ focused: true })
+  handleSuggestionsClearRequested = () => {
+    this.setState({ suggestions: [] })
   }
 
-  handleBlur = () => {
-    this.setState({ focused: false })
+  handleChange = (event, { newValue: value }) => {
+    this.setState({
+      value
+    })
   }
 
-  clear = () => {
-    this.setState({ value: '', suggestions: [] })
+  handleSuggestionSelected = (event, { suggestion: { id }, method }) => {
+    console.log(method, id)
+    // TODO: go to anime page
+  }
+
+  handleKeyDown = ({ target: { value }, key }) => {
+    console.log(value, key)
+    // TODO: go to search page
   }
 
   // ----
@@ -112,58 +215,27 @@ class Search extends Component {
     const { classes } = this.props
 
     return (
-      <div className={classes.wrapper}>
-        {/* text field */}
-        <Input
-          classes={{ root: classes.inputRoot }}
-          placeholder="Search"
-          value={this.state.value}
-          inputRef={input => {
-            this.input = input
-          }}
-          onChange={this.handleChange}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          startAdornment={
-            <InputAdornment classes={{ root: classes.inputAdornmentRoot }}>
-              <Button
-                disableRipple
-                onClick={this.preventFocusLose}
-                style={{ cursor: 'default' }}
-              >
-                <SearchIcon
-                  color={this.state.focused ? 'inherit' : 'disabled'}
-                />
-              </Button>
-            </InputAdornment>
-          }
-          endAdornment={
-            <InputAdornment
-              classes={{ root: classes.inputAdornmentRoot }}
-              onClick={this.preventFocusLose}
-            >
-              <Button
-                disabled={this.state.value.length === 0}
-                onClick={this.clear}
-              >
-                {this.state.value && <ClearIcon />}
-              </Button>
-            </InputAdornment>
-          }
-        />
-        {/* suggestions */}
-        <Paper classes={{ root: classes.paperRoot }}>
-          {this.state.value.length !== 0 &&
-            this.state.suggestions.slice().map(({ id, titles }) => (
-              <MenuItem
-                key={id * Math.random()}
-                classes={{ root: classes.itemRoot }}
-              >
-                {id} - {JSON.stringify(titles)}
-              </MenuItem>
-            ))}
-        </Paper>
-      </div>
+      <Autosuggest
+        theme={{
+          input: classes.input,
+          container: classes.container,
+          suggestionsContainer: classes.suggestionsContainer,
+          suggestionsList: classes.suggestionsList
+        }}
+        renderInputComponent={this.renderInput}
+        suggestions={this.state.suggestions}
+        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+        renderSuggestionsContainer={this.renderSuggestionsContainer}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderSuggestion}
+        inputProps={{
+          value: this.state.value,
+          onChange: this.handleChange,
+          onKeyDown: this.handleKeyDown
+        }}
+        onSuggestionSelected={this.handleSuggestionSelected}
+      />
     )
   }
 }
