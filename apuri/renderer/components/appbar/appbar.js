@@ -7,14 +7,17 @@ import MuiAppbar from 'material-ui/AppBar'
 import History from './history'
 import Search from './search'
 
-export const styles = {
+export const appbarHeight = 40
+
+const styles = theme => ({
   appbarRoot: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 40,
-    boxShadow: 'none'
+    height: appbarHeight,
+    boxShadow: 'none',
+    padding: `0 ${theme.spacing.unit / 2}px`
   }
-}
+})
 
 @withStyles(styles)
 class Appbar extends Component {
