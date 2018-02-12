@@ -10,19 +10,16 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/blukai/animu/bakkuendo/constants"
+	"github.com/blukai/animu/bakkuendo/pkg/datasources/anidb"
 )
 
 func dumper() error {
-	anidb, err := new(AniDB).Dump(map[string]bool{
-		"en":    true, // english
-		"ja":    true, // japanese
-		"x-jat": true, // japanese (transcription)
-	})
+	dump, err := anidb.Dump()
 	if err != nil {
 		return err
 	}
 
-	jd, err := json.Marshal(anidb)
+	jd, err := json.Marshal(dump)
 	if err != nil {
 		return fmt.Errorf("could not jsonize anidb's anime titles: %v", err)
 	}
