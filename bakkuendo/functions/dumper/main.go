@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"os"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"github.com/blukai/animu/bakkuendo/constants"
 	"github.com/blukai/animu/bakkuendo/pkg/datasources/anidb"
 )
 
@@ -27,7 +27,7 @@ func dumper() error {
 	uploader := s3manager.NewUploader(session.Must(session.NewSession()))
 
 	input := &s3manager.UploadInput{
-		Bucket:      aws.String(fmt.Sprintf("%s-x", constants.PREFIX)),
+		Bucket:      aws.String(os.Getenv("ANIMU_S3_BUCKET")),
 		Key:         aws.String("anime-titles.json"),
 		ContentType: aws.String("application/json"),
 		Body:        bytes.NewReader(jd),
