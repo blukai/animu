@@ -44,8 +44,6 @@ func (i *s3impl) Session() *session.Session {
 	return i.session
 }
 
-// ----
-
 func (i *s3impl) getBucketName() *string {
 	if isOffline {
 		return aws.String("Test")
