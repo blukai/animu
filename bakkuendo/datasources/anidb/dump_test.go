@@ -15,7 +15,7 @@ func init() {
 	ts = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Encoding", "gzip")
 
-		data, err := ioutil.ReadFile("../../../testdata/anime-titles.xml.gz")
+		data, err := ioutil.ReadFile("../../testdata/anime-titles.xml.gz")
 		if err != nil {
 			panic(err)
 		}
@@ -36,7 +36,7 @@ func TestMethods(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	exp, err := ioutil.ReadFile("../../../testdata/anime-titles.xml")
+	exp, err := ioutil.ReadFile("../../testdata/anime-titles.xml")
 	if err != nil {
 		t.Fatal(err)
 	}
