@@ -1,6 +1,8 @@
 package services
 
 import (
+	"bytes"
+	"compress/gzip"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -12,8 +14,12 @@ import (
 // S3 is a simplified s3manager
 type S3 interface {
 	Session() *session.Session
+
 	Upload(*s3manager.UploadInput) (*s3manager.UploadOutput, error)
 	Download(*s3.GetObjectInput) ([]byte, error)
+
+	Compress([]byte) ([]byte, error)
+	Uncompress([]byte) ([]byte, error)
 }
 
 // NewS3 creates a new instance of simplified s3manager
@@ -75,6 +81,40 @@ func (i *s3impl) Download(in *s3.GetObjectInput) ([]byte, error) {
 
 	buff := new(aws.WriteAtBuffer)
 	if _, err := i.downloader.Download(buff, in); err != nil {
+		return nil, err
+	}
+
+	return buff.Bytes(), nil
+}
+
+func (s3impl) Compress(data []byte) ([]byte, error) {
+	buff := new(bytes.Buffer)
+
+	w := gzip.NewWriter(buff)
+
+	if _, err := w.Write(data); err != nil {
+		return nil, err
+	}
+
+	if err := w.Flush(); err != nil {
+		return nil, err
+	}
+
+	if err := w.Close(); err != nil {
+		return nil, err
+	}
+
+	return buff.Bytes(), nil
+}
+
+func (s3impl) Uncompress(data []byte) ([]byte, error) {
+	r, err := gzip.NewReader(bytes.NewBuffer(data))
+	if err != nil {
+		return nil, err
+	}
+
+	buff := new(bytes.Buffer)
+	if _, err := buff.ReadFrom(r); err != nil {
 		return nil, err
 	}
 
