@@ -8,27 +8,29 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"github.com/blukai/animu/bakkuendo/datasources/anidb"
-	"github.com/blukai/animu/bakkuendo/services"
+	"github.com/blukai/animu/bakkuendo/internal/apis/anidb"
+	_ "github.com/blukai/animu/bakkuendo/internal/config"
+	"github.com/blukai/animu/bakkuendo/internal/services/s3"
+	"github.com/blukai/animu/bakkuendo/internal/utils"
 )
 
 func dumper() error {
-	dump, err := anidb.Dump()
+	anititles, err := anidb.GetDump()
 	if err != nil {
 		return err
 	}
 
-	data, err := json.Marshal(dump)
+	jsonized, err := json.Marshal(anititles)
 	if err != nil {
 		return fmt.Errorf("could not jsonize: %v", err)
 	}
 
-	s3svc := services.NewS3()
-
-	compressed, err := s3svc.Compress(data)
+	compressed, err := utils.Compress(jsonized)
 	if err != nil {
 		return fmt.Errorf("could not compress: %v", err)
 	}
+
+	s3svc := s3.New()
 
 	input := &s3manager.UploadInput{
 		Key:             aws.String("anime-titles.json.gz"),
@@ -36,7 +38,7 @@ func dumper() error {
 		ContentEncoding: aws.String("gzip"),
 		Body:            bytes.NewReader(compressed),
 	}
-	if _, err := s3svc.Upload(input); err != nil {
+	if _, err := s3svc.Put(input); err != nil {
 		return fmt.Errorf("failed to upload: %v", err)
 	}
 
