@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  s3:
+    image: olalond3/fakes3
+    ports:
+      - 9091:4567

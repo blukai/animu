@@ -4,7 +4,6 @@
   "memory": 128,
   "timeout": 5,
   "role": "arn:aws:iam::426016367572:role/animu_lambda_function",
-  "environment": {},
   "defaultEnvironment": "development",
   "profile": "animu"
 }

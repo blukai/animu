@@ -97,6 +97,20 @@ class Anime extends IndexedDB {
           reject(err)
         })
     })
+
+  // ----
+
+  getTitles = id =>
+    new Promise((resolve, reject) => {
+      this.anime
+        .get(Number(id))
+        .then(res => {
+          resolve(res)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
 }
 
 export const anime = new Anime()

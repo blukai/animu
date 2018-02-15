@@ -1,9 +1,5 @@
 # variables
 
-variable "prefix" {
-	default = "animu"
-}
-
 variable "aws_region" {}
 
 # data
