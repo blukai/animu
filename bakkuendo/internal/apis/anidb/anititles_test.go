@@ -1,10 +1,16 @@
-package anidb
+package anidb_test
+
+// testutils imports the anidb.Anititle type, so package name of this file
+// contains the _test suffix to avoid the import cycle
 
 import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/blukai/animu/bakkuendo/internal/apis/anidb"
+	"github.com/blukai/animu/bakkuendo/internal/testutils"
 )
 
 func TestGetAnititles(t *testing.T) {
@@ -25,30 +31,10 @@ func TestGetAnititles(t *testing.T) {
 
 	// ----
 
-	anititles, err := GetAnititles(ts.URL)
+	anititles, err := anidb.GetAnititles(ts.URL)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if len(anititles) == 0 {
-		t.Fatal("got nothing")
-	}
-
-	for _, anime := range anititles {
-		if anime.ID <= 0 {
-			t.Error("no id")
-		}
-
-		for _, title := range anime.Titles {
-			if title.Lang == "" {
-				t.Error("no lang")
-			}
-			if title.Type == "" {
-				t.Error("no type")
-			}
-			if title.Text == "" {
-				t.Error("no text")
-			}
-		}
-	}
+	testutils.CheckAnititles(t, &anititles)
 }

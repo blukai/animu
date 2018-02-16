@@ -1,0 +1,23 @@
+schema {
+  query: RootQuery
+}
+
+type RootQuery {
+  # anititles represents anime titles provided by AniDB.
+  # Required for updating local listing of anime titles
+  # that serves to ensure quick anime search in the app.
+  anititles(afterID: Int!): [Anititle!]!
+}
+
+# ----
+
+type Anititle {
+  id: Int!
+  titles: [AnimeTitle!]!
+}
+
+type AnimeTitle {
+  type: String!
+  lang: String!
+  text: String!
+}
