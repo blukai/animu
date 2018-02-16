@@ -1,0 +1,597 @@
+[
+  {
+    "id": 6327,
+    "titles": [
+      {
+        "lang": "ko",
+        "type": "official",
+        "text": "괴물 이야기"
+      },
+      {
+        "type": "official",
+        "lang": "x-kot",
+        "text": "바케모노가타리"
+      },
+      {
+        "lang": "th",
+        "type": "syn",
+        "text": "บาเกะโมโนกาตาริ"
+      },
+      {
+        "lang": "th",
+        "type": "official",
+        "text": "ปกรณัมของเหล่าภูต"
+      },
+      {
+        "lang": "en",
+        "type": "short",
+        "text": "bakemono"
+      },
+      {
+        "type": "official",
+        "lang": "fr",
+        "text": "Bakemonogatari"
+      },
+      {
+        "lang": "x-jat",
+        "type": "main",
+        "text": "Bakemonogatari"
+      },
+      {
+        "lang": "en",
+        "type": "official",
+        "text": "Bakemonogatari"
+      },
+      {
+        "type": "short",
+        "lang": "x-jat",
+        "text": "BMG"
+      },
+      {
+        "type": "official",
+        "lang": "tr",
+        "text": "Canavar Hikayeleri"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Ghostory"
+      },
+      {
+        "type": "syn",
+        "lang": "lt",
+        "text": "Monstrų Istorijos"
+      },
+      {
+        "type": "syn",
+        "lang": "fa",
+        "text": "باکمونوگاتاری"
+      },
+      {
+        "lang": "fa",
+        "type": "syn",
+        "text": "داستان از ما بهتران"
+      },
+      {
+        "lang": "uk",
+        "type": "syn",
+        "text": "Бакемоноґатарі"
+      },
+      {
+        "lang": "bg",
+        "type": "syn",
+        "text": "Истории за Чудовището"
+      },
+      {
+        "type": "syn",
+        "lang": "ru",
+        "text": "Истории о Чудовищах"
+      },
+      {
+        "type": "syn",
+        "lang": "ru",
+        "text": "Монстрассказы"
+      },
+      {
+        "type": "syn",
+        "lang": "uk",
+        "text": "Монстроповідання"
+      },
+      {
+        "type": "syn",
+        "lang": "uk",
+        "text": "Оповідання про монстрів"
+      },
+      {
+        "type": "syn",
+        "lang": "uk",
+        "text": "Потвороповідь"
+      },
+      {
+        "lang": "ja",
+        "type": "official",
+        "text": "化物語"
+      },
+      {
+        "type": "syn",
+        "lang": "zh-Hant",
+        "text": "化物語"
+      },
+      {
+        "type": "official",
+        "lang": "zh-Hans",
+        "text": "化物语"
+      }
+    ]
+  },
+  {
+    "id": 8658,
+    "titles": [
+      {
+        "lang": "ko",
+        "type": "syn",
+        "text": "가짜 이야기"
+      },
+      {
+        "type": "official",
+        "lang": "ko",
+        "text": "니세모노가타리"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Bogustory"
+      },
+      {
+        "type": "syn",
+        "lang": "en",
+        "text": "Impostory"
+      },
+      {
+        "type": "main",
+        "lang": "x-jat",
+        "text": "Nisemonogatari"
+      },
+      {
+        "lang": "en",
+        "type": "official",
+        "text": "Nisemonogatari"
+      },
+      {
+        "type": "official",
+        "lang": "fr",
+        "text": "Nisemonogatari (Histoires d`Imposture)"
+      },
+      {
+        "lang": "x-jat",
+        "type": "short",
+        "text": "NMG"
+      },
+      {
+        "lang": "zh-Hans",
+        "type": "official",
+        "text": "伪物语"
+      },
+      {
+        "lang": "ja",
+        "type": "official",
+        "text": "偽物語"
+      }
+    ]
+  },
+  {
+    "id": 9453,
+    "titles": [
+      {
+        "lang": "ko",
+        "type": "syn",
+        "text": "고양이 이야기 (흑)"
+      },
+      {
+        "type": "official",
+        "lang": "ko",
+        "text": "네코모노가타리"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Cat Story (Black)"
+      },
+      {
+        "lang": "en",
+        "type": "official",
+        "text": "Nekomonogatari (Black): Tsubasa Family"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Nekomonogatari Black: Tsubasa Family"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Nekomonogatari (Kuro)"
+      },
+      {
+        "type": "main",
+        "lang": "x-jat",
+        "text": "Nekomonogatari (Kuro): Tsubasa Family"
+      },
+      {
+        "type": "official",
+        "lang": "fr",
+        "text": "Nekomonogatari Noir"
+      },
+      {
+        "type": "short",
+        "lang": "x-jat",
+        "text": "nkmg"
+      },
+      {
+        "type": "short",
+        "lang": "x-jat",
+        "text": "nmgk"
+      },
+      {
+        "type": "syn",
+        "lang": "x-jat",
+        "text": "Tsubasa Family"
+      },
+      {
+        "lang": "ja",
+        "type": "official",
+        "text": "猫物語(黒) つばさファミリー"
+      },
+      {
+        "lang": "zh-Hans",
+        "type": "official",
+        "text": "猫物语(黑)"
+      }
+    ]
+  },
+  {
+    "id": 9183,
+    "titles": [
+      {
+        "type": "syn",
+        "lang": "x-jat",
+        "text": "Kabukimonogatari"
+      },
+      {
+        "lang": "x-jat",
+        "type": "syn",
+        "text": "Koimonogatari"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Monogatari S2"
+      },
+      {
+        "lang": "fr",
+        "type": "official",
+        "text": "Monogatari Seconde Saison"
+      },
+      {
+        "lang": "en",
+        "type": "official",
+        "text": "Monogatari Series Second Season"
+      },
+      {
+        "lang": "x-jat",
+        "type": "main",
+        "text": "Monogatari Series: Second Season"
+      },
+      {
+        "type": "syn",
+        "lang": "en",
+        "text": "Monogatari SS"
+      },
+      {
+        "lang": "x-jat",
+        "type": "short",
+        "text": "MSSS"
+      },
+      {
+        "type": "syn",
+        "lang": "x-jat",
+        "text": "Nekomonogatari (Shiro)"
+      },
+      {
+        "lang": "x-jat",
+        "type": "syn",
+        "text": "Onimonogatari"
+      },
+      {
+        "type": "syn",
+        "lang": "x-jat",
+        "text": "Otorimonogatari"
+      },
+      {
+        "type": "syn",
+        "lang": "en",
+        "text": "Story Series: Second Season"
+      },
+      {
+        "lang": "x-jat",
+        "type": "syn",
+        "text": "Zenmonogatari"
+      },
+      {
+        "lang": "ja",
+        "type": "syn",
+        "text": "傾物語"
+      },
+      {
+        "lang": "ja",
+        "type": "syn",
+        "text": "全物語"
+      },
+      {
+        "lang": "ja",
+        "type": "syn",
+        "text": "囮物語"
+      },
+      {
+        "lang": "ja",
+        "type": "syn",
+        "text": "恋物語"
+      },
+      {
+        "lang": "ja",
+        "type": "official",
+        "text": "物語シリーズ セカンドシーズン"
+      },
+      {
+        "type": "official",
+        "lang": "zh-Hans",
+        "text": "物语系列 第二季"
+      },
+      {
+        "lang": "ja",
+        "type": "syn",
+        "text": "猫物語(白)"
+      },
+      {
+        "lang": "ja",
+        "type": "syn",
+        "text": "鬼物語"
+      }
+    ]
+  },
+  {
+    "id": 10046,
+    "titles": [
+      {
+        "lang": "x-jat",
+        "type": "short",
+        "text": "Hanamonogatari"
+      },
+      {
+        "type": "official",
+        "lang": "en",
+        "text": "Hanamonogatari: Suruga Devil"
+      },
+      {
+        "type": "main",
+        "lang": "x-jat",
+        "text": "Hanamonogatari: Suruga Devil"
+      },
+      {
+        "lang": "x-jat",
+        "type": "short",
+        "text": "HMG"
+      },
+      {
+        "lang": "x-unk",
+        "type": "syn",
+        "text": "Monogatari Series: Second Season +α"
+      },
+      {
+        "type": "official",
+        "lang": "ja",
+        "text": "花物語 するがデビル"
+      },
+      {
+        "lang": "zh-Hans",
+        "type": "official",
+        "text": "花物语"
+      }
+    ]
+  },
+  {
+    "id": 10891,
+    "titles": [
+      {
+        "type": "short",
+        "lang": "x-jat",
+        "text": "tmgyd"
+      },
+      {
+        "type": "official",
+        "lang": "en",
+        "text": "Tsukimonogatari: Yotsugi Doll"
+      },
+      {
+        "lang": "x-jat",
+        "type": "main",
+        "text": "Tsukimonogatari: Yotsugi Doll"
+      },
+      {
+        "lang": "ja",
+        "type": "official",
+        "text": "憑物語 よつぎドール"
+      }
+    ]
+  },
+  {
+    "id": 11350,
+    "titles": [
+      {
+        "type": "syn",
+        "lang": "en",
+        "text": "Endstory"
+      },
+      {
+        "lang": "x-jat",
+        "type": "short",
+        "text": "OMG"
+      },
+      {
+        "type": "main",
+        "lang": "x-jat",
+        "text": "Owarimonogatari"
+      },
+      {
+        "lang": "en",
+        "type": "official",
+        "text": "Owarimonogatari"
+      },
+      {
+        "type": "syn",
+        "lang": "ru",
+        "text": "Истории Последствий"
+      },
+      {
+        "lang": "bg",
+        "type": "syn",
+        "text": "Край на историята"
+      },
+      {
+        "type": "official",
+        "lang": "ja",
+        "text": "終物語"
+      }
+    ]
+  },
+  {
+    "id": 11827,
+    "titles": [
+      {
+        "lang": "ja",
+        "type": "syn",
+        "text": "コヨミモノガタリ"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Calendar Story"
+      },
+      {
+        "type": "official",
+        "lang": "en",
+        "text": "Koyomimonogatari"
+      },
+      {
+        "type": "main",
+        "lang": "x-jat",
+        "text": "Koyomimonogatari"
+      },
+      {
+        "lang": "ja",
+        "type": "official",
+        "text": "暦物語"
+      }
+    ]
+  },
+  {
+    "id": 8357,
+    "titles": [
+      {
+        "lang": "en",
+        "type": "official",
+        "text": "Kizumonogatari"
+      },
+      {
+        "type": "main",
+        "lang": "x-jat",
+        "text": "Kizumonogatari"
+      },
+      {
+        "type": "short",
+        "lang": "x-jat",
+        "text": "KMG"
+      },
+      {
+        "lang": "uk",
+        "type": "syn",
+        "text": "Кізумоноґатарі"
+      },
+      {
+        "type": "official",
+        "lang": "zh-Hans",
+        "text": "伤物语"
+      },
+      {
+        "type": "official",
+        "lang": "ja",
+        "text": "傷物語"
+      }
+    ]
+  },
+  {
+    "id": 13033,
+    "titles": [
+      {
+        "type": "main",
+        "lang": "x-jat",
+        "text": "Owarimonogatari (2017)"
+      },
+      {
+        "lang": "en",
+        "type": "syn",
+        "text": "Owarimonogatari S2"
+      },
+      {
+        "type": "official",
+        "lang": "en",
+        "text": "Owarimonogatari Second Season"
+      },
+      {
+        "lang": "ja",
+        "type": "official",
+        "text": "終物語 (2017)"
+      },
+      {
+        "type": "syn",
+        "lang": "zh-Hans",
+        "text": "终物语 下"
+      }
+    ]
+  },
+  {
+    "id": 13691,
+    "titles": [
+      {
+        "type": "syn",
+        "lang": "en",
+        "text": "Next endstory"
+      },
+      {
+        "type": "syn",
+        "lang": "x-jat",
+        "text": "Zokuowarimonogatari"
+      },
+      {
+        "lang": "x-jat",
+        "type": "main",
+        "text": "Zoku Owarimonogatari"
+      },
+      {
+        "type": "syn",
+        "lang": "bg",
+        "text": "Следващ край на историята"
+      },
+      {
+        "type": "syn",
+        "lang": "ja",
+        "text": "続終物語"
+      },
+      {
+        "type": "official",
+        "lang": "ja",
+        "text": "続・終物語"
+      }
+    ]
+  }
+]
