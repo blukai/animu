@@ -2,7 +2,6 @@ package graphql
 
 import (
 	"context"
-	"io/ioutil"
 
 	graphql "github.com/neelance/graphql-go"
 )
@@ -10,12 +9,11 @@ import (
 var schema *graphql.Schema
 
 func init() {
-	s, err := ioutil.ReadFile("./schema.gql")
+	s, err := New()
 	if err != nil {
 		panic(err)
 	}
-
-	schema = graphql.MustParseSchema(string(s), &Resolver{})
+	schema = s
 }
 
 func exec(query string, variables ...map[string]interface{}) *graphql.Response {
