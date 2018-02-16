@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestGetDump(t *testing.T) {
+func TestGetAnititles(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Encoding", "gzip")
 
@@ -25,7 +25,7 @@ func TestGetDump(t *testing.T) {
 
 	// ----
 
-	anititles, err := GetDump(ts.URL)
+	anititles, err := GetAnititles(ts.URL)
 	if err != nil {
 		t.Fatal(err)
 	}

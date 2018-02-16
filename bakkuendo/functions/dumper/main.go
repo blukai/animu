@@ -15,7 +15,7 @@ import (
 )
 
 func dumper() error {
-	anititles, err := anidb.GetDump()
+	anititles, err := anidb.GetAnititles()
 	if err != nil {
 		return err
 	}
