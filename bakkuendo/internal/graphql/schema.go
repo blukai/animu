@@ -1,20 +1,40 @@
 package graphql
 
 import (
-	"io/ioutil"
-
 	graphql "github.com/neelance/graphql-go"
 )
+
+// SCHEMA is a definition of graphql schema
+const SCHEMA = `
+schema {
+	query: RootQuery
+  }
+
+  type RootQuery {
+	# anititles represents anime titles provided by AniDB.
+	# Required for updating local listing of anime titles
+	# that serves to ensure quick anime search in the app.
+	anititles(afterID: Int!): [Anititle!]!
+  }
+
+  # ----
+
+  type Anititle {
+	id: Int!
+	titles: [AnimeTitle!]!
+  }
+
+  type AnimeTitle {
+	type: String!
+	lang: String!
+	text: String!
+  }
+`
 
 // Resolver is the root resolver
 type Resolver struct{}
 
 // New initializes a new schema
 func New() (*graphql.Schema, error) {
-	schema, err := ioutil.ReadFile("./schema.gql")
-	if err != nil {
-		return nil, err
-	}
-
-	return graphql.MustParseSchema(string(schema), &Resolver{}), nil
+	return graphql.MustParseSchema(string(SCHEMA), &Resolver{}), nil
 }
