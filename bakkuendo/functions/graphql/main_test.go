@@ -7,9 +7,14 @@ import (
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/blukai/animu/bakkuendo/internal/testutils"
 )
 
 func TestMain(t *testing.T) {
+	testutils.PrepareAnititlesTestdata(t)
+
+	// ----
+
 	req := GraphQLRequest{
 		QueryString: `{ anititles(afterID: 13600) { id } }`,
 	}
