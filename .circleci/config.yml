@@ -41,17 +41,16 @@ jobs:
             mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
           name: Start containers
-          command: |
-            set -x
-            docker-compose up -d
-      - run:
-          name: Install dep and dependencies
-          command: |
-            go get -u github.com/golang/dep/cmd/dep
-            dep ensure
-      - run:
-          name: Run all tests
-          command: go test -v ./...
+          command: docker-compose up -d
+      - run: docker ps
+      # - run:
+      #     name: Install dep and dependencies
+      #     command: |
+      #       go get -u github.com/golang/dep/cmd/dep
+      #       dep ensure
+      # - run:
+      #     name: Run all tests
+      #     command: go test -v ./...
 
 workflows:
   version: 2
