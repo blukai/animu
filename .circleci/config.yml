@@ -4,7 +4,7 @@ jobs:
   setup_bakkuendo_environment:
     docker:
       - image: circleci/golang:latest
-    working_directory: /go/src/github.com/blukai/animu/bakkuendo
+    working_directory: /go/src/github.com/blukai/animu
     steps:
       - checkout
       - run:
@@ -15,6 +15,14 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - setup_remote_docker
       - run: |
+          pwd
+          ls -al
+      - run: |
+          cd bakkuendo
+          pwd
+          ls -al
+      - run: |
+          cd apuri
           pwd
           ls -al
       # - run:
