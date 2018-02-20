@@ -2,6 +2,8 @@ version: 2
 
 jobs:
   checkout:
+    docker:
+      - image: circleci/golang:latest
     working_directory: /go/src/github.com/blukai/animu
     steps:
       - checkout
