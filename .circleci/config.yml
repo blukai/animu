@@ -36,12 +36,13 @@ jobs:
           command: |
             set -x
             docker-compose up -d
-      - run:
-          name: Install dep and dependencies
-          command: |
-            go get -u github.com/golang/dep/cmd/dep
-            dep ensure
-      - run: go test -v ./...
+      - run: curl http://localhost:9091
+      # - run:
+      #     name: Install dep and dependencies
+      #     command: |
+      #       go get -u github.com/golang/dep/cmd/dep
+      #       dep ensure
+      # - run: go test -v ./...
 
 workflows:
   version: 2
