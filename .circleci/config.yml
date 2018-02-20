@@ -3,7 +3,7 @@ version: 2
 jobs:
   checkout_code:
     docker:
-      - image: circleci/golang:latest
+      - image: circleci/golang
     working_directory: /go/src/github.com/blukai/animu
     steps:
       - checkout
@@ -14,34 +14,19 @@ jobs:
 
   test_bakkuendo:
     docker:
-      - image: golang:latest
+      - image: golang
+      - image: olalond3/fakes3
     working_directory: /go/src/github.com/blukai/animu/bakkuendo
     environment:
       IS_OFFLINE: true
       AWS_ACCESS_KEY_ID: accesskeyid
       AWS_SECRET_ACCESS_KEY: secritaccesskey
+      ANIMU_S3_ENDPOINT: http://0.0.0.0:4567
     steps:
       - run: rm -rf /go
       - restore_cache:
           key: animu
       - setup_remote_docker
-      - run:
-          name: Install Docker client
-          command: |
-            set -x
-            VER="17.12.0-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
-            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-            mv /tmp/docker/* /usr/bin
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            mv ~/docker-compose /usr/local/bin/docker-compose
-      - run:
-          name: Start containers
-          command: docker-compose up -d
       - run:
           name: Install dep and dependencies
           command: |
