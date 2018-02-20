@@ -1,17 +1,25 @@
 version: 2
 
 jobs:
-  init:
+  checkout_code:
     docker:
       - image: circleci/golang:latest
     working_directory: /go/src/github.com/blukai/animu
     steps:
       - checkout
+      - save_cache:
+          key: animu-{{ epoch }}
+          paths:
+            - /go
+
   setup_bakkuendo_environment:
     docker:
       - image: circleci/golang:latest
     working_directory: /go/src/github.com/blukai/animu/bakkuendo
     steps:
+      - run: rm -rf /go
+      - restore_cache:
+          key: animu
       - run: |
           pwd
           ls -al
@@ -37,7 +45,7 @@ workflows:
   version: 2
   animu:
     jobs:
-      - init
+      - checkout_code
       - setup_bakkuendo_environment:
           requires:
-            - init
+            - checkout_code
