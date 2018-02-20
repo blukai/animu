@@ -37,6 +37,6 @@ workflows:
   animu:
     jobs:
       - checkout
-      - setup_bakkuendo_environment
+      - setup_bakkuendo_environment:
           requires:
             - checkout
