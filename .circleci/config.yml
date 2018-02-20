@@ -18,6 +18,8 @@ jobs:
     working_directory: /go/src/github.com/blukai/animu/bakkuendo
     environment:
       IS_OFFLINE: true
+      AWS_ACCESS_KEY_ID: accesskeyid
+      AWS_SECRET_ACCESS_KEY: secritaccesskey
     steps:
       - run: rm -rf /go
       - restore_cache:
