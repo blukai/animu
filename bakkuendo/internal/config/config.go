@@ -21,5 +21,5 @@ func setTestingDefaults() {
 	viper.SetDefault("offline", true)
 
 	viper.SetDefault("s3.bucket.name", "AnimuTest")
-	viper.SetDefault("s3.endpoint", "http://127.0.0.1:9091")
+	viper.SetDefault("s3.endpoint", "http://0.0.0.0:9091")
 }
