@@ -1,30 +1,26 @@
 version: 2
 
 jobs:
-  setup_bakkuendo_environment:
-    docker:
-      - image: circleci/golang:latest
+  checkout:
     working_directory: /go/src/github.com/blukai/animu
     steps:
       - checkout
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      - setup_remote_docker
+
+  setup_bakkuendo_environment:
+    docker:
+      - image: circleci/golang:latest
+    working_directory: /go/src/github.com/blukai/animu/bakkuendo
+    steps:
       - run: |
           pwd
           ls -al
-      - run: |
-          cd bakkuendo
-          pwd
-          ls -al
-      - run: |
-          cd apuri
-          pwd
-          ls -al
+      # - run:
+      #     name: Install Docker Compose
+      #     command: |
+      #       curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+      #       chmod +x ~/docker-compose
+      #       sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      # - setup_remote_docker
       # - run:
       #     name: Start containers
       #     command: |
@@ -40,4 +36,7 @@ workflows:
   version: 2
   animu:
     jobs:
+      - checkout
       - setup_bakkuendo_environment
+          requires:
+            - checkout
