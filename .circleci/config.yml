@@ -39,18 +39,19 @@ jobs:
             curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
             chmod +x ~/docker-compose
             mv ~/docker-compose /usr/local/bin/docker-compose
-      - run: docker ps
-      # - run:
-      #     name: Start containers
-      #     command: |
-      #       set -x
-      #       docker-compose up -d
-      # - run:
-      #     name: Install dep and dependencies
-      #     command: |
-      #       go get -u github.com/golang/dep/cmd/dep
-      #       dep ensure
-      # - run: go test -v ./...
+      - run:
+          name: Start containers
+          command: |
+            set -x
+            docker-compose up -d
+      - run:
+          name: Install dep and dependencies
+          command: |
+            go get -u github.com/golang/dep/cmd/dep
+            dep ensure
+      - run:
+          name: Run all tests
+          command: go test -v ./...
 
 workflows:
   version: 2
