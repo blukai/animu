@@ -5,4 +5,4 @@ services:
   s3:
     image: olalond3/fakes3
     ports:
-      - 9091:4567
+      - 4567:4567

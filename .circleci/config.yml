@@ -17,11 +17,6 @@ jobs:
       - image: golang
       - image: olalond3/fakes3
     working_directory: /go/src/github.com/blukai/animu/bakkuendo
-    environment:
-      IS_OFFLINE: true
-      AWS_ACCESS_KEY_ID: accesskeyid
-      AWS_SECRET_ACCESS_KEY: secritaccesskey
-      ANIMU_S3_ENDPOINT: http://0.0.0.0:4567
     steps:
       - run: rm -rf /go
       - restore_cache:
@@ -32,15 +27,14 @@ jobs:
           command: |
             go get -u github.com/golang/dep/cmd/dep
             dep ensure
-      - run:
-          name: Run all tests
-          command: go test -v ./...
+      - run: make test
 
 workflows:
   version: 2
   animu:
     jobs:
       - checkout_code
+
       - test_bakkuendo:
           requires:
             - checkout_code

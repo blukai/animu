@@ -1,65 +1,76 @@
 package s3
 
 import (
+	"os"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	_ "github.com/blukai/animu/bakkuendo/internal/config" // inits the config if it was forgoten xd
-	"github.com/spf13/viper"
+	"github.com/kelseyhightower/envconfig"
 )
 
-// S3 simplifies the s3manager
-type S3 interface {
+// Service is a simplified s3manager
+type Service interface {
 	Put(*s3manager.UploadInput) (*s3manager.UploadOutput, error)
 	Get(*s3.GetObjectInput) ([]byte, error)
 }
 
-// New creates a new instance of S3
-func New() S3 {
-	conf := aws.NewConfig()
-	if viper.GetBool("offline") {
-		conf.Endpoint = aws.String(viper.GetString("s3.endpoint"))
+// New creates a new s3 service
+func New() Service {
+	var svcConf config
+	envconfig.MustProcess("", &svcConf)
+
+	var awsConf aws.Config
+	if os.Getenv("IS_OFFLINE") == "true" {
+		awsConf.Endpoint = svcConf.Endpoint
 		// region does not really matter
-		conf.Region = aws.String("fakes3")
+		awsConf.Region = aws.String("fakes3")
 	}
 
-	return S3(&s3impl{
-		session: session.Must(session.NewSession(conf)),
-	})
+	return &handler{
+		session: session.Must(session.NewSession(&awsConf)),
+		c:       &svcConf,
+	}
 }
 
 // ----
 
-type s3impl struct {
+type config struct {
+	Bucket   *string `envconfig:"S3_BUCKET"`
+	Endpoint *string `envconfig:"S3_ENDPOINT"`
+}
+
+type handler struct {
 	session    *session.Session
 	uploader   *s3manager.Uploader
 	downloader *s3manager.Downloader
+	c          *config
 }
 
-func (i *s3impl) Put(in *s3manager.UploadInput) (*s3manager.UploadOutput, error) {
-	if i.uploader == nil {
-		i.uploader = s3manager.NewUploader(i.session)
+func (h *handler) Put(in *s3manager.UploadInput) (*s3manager.UploadOutput, error) {
+	if h.uploader == nil {
+		h.uploader = s3manager.NewUploader(h.session)
 	}
 
-	if in.Bucket == nil {
-		in.Bucket = aws.String(viper.GetString("s3.bucket.name"))
+	if in.Bucket == nil && h.c.Bucket != nil {
+		in.Bucket = h.c.Bucket
 	}
 
-	return i.uploader.Upload(in)
+	return h.uploader.Upload(in)
 }
 
-func (i *s3impl) Get(in *s3.GetObjectInput) ([]byte, error) {
-	if i.downloader == nil {
-		i.downloader = s3manager.NewDownloader(i.session)
+func (h *handler) Get(in *s3.GetObjectInput) ([]byte, error) {
+	if h.downloader == nil {
+		h.downloader = s3manager.NewDownloader(h.session)
 	}
 
-	if in.Bucket == nil {
-		in.Bucket = aws.String(viper.GetString("s3.bucket.name"))
+	if in.Bucket == nil && h.c.Bucket != nil {
+		in.Bucket = h.c.Bucket
 	}
 
 	var buff aws.WriteAtBuffer
-	if _, err := i.downloader.Download(&buff, in); err != nil {
+	if _, err := h.downloader.Download(&buff, in); err != nil {
 		return nil, err
 	}
 
