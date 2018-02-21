@@ -11,19 +11,18 @@ import (
 	"github.com/blukai/animu/bakkuendo/internal/graphql"
 )
 
-// GraphQLRequest represents a GraphQL request
-type GraphQLRequest struct {
+// graphQLRequest represents a GraphQL request
+type graphQLRequest struct {
 	QueryString   string                 `json:"query"`
 	OperationName string                 `json:"operationName,omitempty"`
 	Variables     map[string]interface{} `json:"variables,omitempty"`
 }
 
-type badResponse struct {
-	Error string `json:"error"`
-}
-
 func createBadResponse(err string) string {
-	br, _ := json.Marshal(badResponse{err})
+	res := struct {
+		Error string `json:"error"`
+	}{err}
+	br, _ := json.Marshal(res)
 	return string(br)
 }
 
@@ -36,6 +35,8 @@ func handle(ctx context.Context, req events.APIGatewayProxyRequest) (*events.API
 		},
 	}
 
+	// request checks
+
 	if req.HTTPMethod == "OPTIONS" {
 		response.StatusCode = http.StatusOK
 		return response, nil
@@ -46,20 +47,22 @@ func handle(ctx context.Context, req events.APIGatewayProxyRequest) (*events.API
 		return response, nil
 	}
 
-	var payload GraphQLRequest
+	if req.Body == "" {
+		response.Body = createBadResponse("no body provided")
+		response.StatusCode = http.StatusBadRequest
+		return response, nil
+	}
+
+	// execution
+
+	var payload graphQLRequest
 	if err := json.Unmarshal([]byte(req.Body), &payload); err != nil {
 		response.Body = createBadResponse(fmt.Sprintf("could not unmarshal body: %v", err))
 		response.StatusCode = http.StatusBadRequest
 		return response, nil
 	}
 
-	schema, err := graphql.New()
-	if err != nil {
-		response.Body = createBadResponse(fmt.Sprintf("could not create a schema: %v", err))
-		response.StatusCode = http.StatusInternalServerError
-		return response, nil
-	}
-
+	schema := graphql.New()
 	executionResult := schema.Exec(ctx, payload.QueryString, payload.OperationName, payload.Variables)
 	responseBody, err := json.Marshal(executionResult)
 	if err != nil {

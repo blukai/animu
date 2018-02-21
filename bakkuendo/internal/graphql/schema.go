@@ -35,6 +35,6 @@ schema {
 type Resolver struct{}
 
 // New initializes a new schema
-func New() (*graphql.Schema, error) {
-	return graphql.MustParseSchema(string(SCHEMA), &Resolver{}), nil
+func New() *graphql.Schema {
+	return graphql.MustParseSchema(string(SCHEMA), &Resolver{})
 }
