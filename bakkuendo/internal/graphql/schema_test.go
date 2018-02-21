@@ -9,11 +9,7 @@ import (
 var schema *graphql.Schema
 
 func init() {
-	s, err := New()
-	if err != nil {
-		panic(err)
-	}
-	schema = s
+	schema = New()
 }
 
 func exec(query string, variables ...map[string]interface{}) *graphql.Response {
