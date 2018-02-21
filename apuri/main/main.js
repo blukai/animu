@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut } = require('electron')
+const { app, BrowserWindow } = require('electron')
 
 const { NODE_ENV } = process.env
 
@@ -36,6 +36,7 @@ const createWindow = () => {
   }
 
   webContents.on('did-finish-load', () => {
+    // Disable zoom
     webContents.setZoomFactor(1)
     webContents.setLayoutZoomLevelLimits(0, 0)
   })

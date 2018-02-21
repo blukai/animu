@@ -2,22 +2,16 @@ const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { DefinePlugin, HotModuleReplacementPlugin } = require('webpack')
 
-// ----
+const path = to => resolve(__dirname, to)
 
-const { NODE_ENV, BUCKET_URL, PORT } = process.env
-
-// ----
+const { NODE_ENV, S3_URL, GRAPHQL_URL, PORT } = process.env
 
 const config = {
+  mode: 'development',
+
   target: 'electron-renderer',
 
-  entry: [resolve(__dirname, '..//main.js')],
-
-  output: {
-    filename: 'bundle.js',
-    path: resolve(__dirname, 'dist'),
-    publicPath: './'
-  },
+  entry: path('../main.js'),
 
   resolve: {
     extensions: ['.js', '.jsx']
@@ -27,7 +21,7 @@ const config = {
     rules: [
       {
         test: /\.jsx?$/,
-        include: resolve(__dirname, '../'),
+        include: path('../'),
         use: {
           loader: require.resolve('babel-loader'),
           options: {
@@ -52,31 +46,23 @@ const config = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolve(__dirname, '../index.html')
+      template: path('../app.html')
     }),
+
+    new HotModuleReplacementPlugin(),
+
     new DefinePlugin({
-      NODE_ENV: JSON.stringify(NODE_ENV),
-      BUCKET_URL: JSON.stringify(
-        BUCKET_URL || 'https://s3.eu-central-1.amazonaws.com/animu-x'
-      )
+      NODE_ENV: `${NODE_ENV}`,
+      S3_URL: `${S3_URL || 'https://s3.eu-central-1.amazonaws.com'}/animux`,
+      GRAPHQL_URL: `${GRAPHQL_URL ||
+        'https://ch0zb8mjxi.execute-api.eu-central-1.amazonaws.com'}/${NODE_ENV}/graphql`
     })
   ],
 
-  bail: true, // don't attempt to continue if there are any errors.
+  // don't attempt to continue if there are any errors.
+  bail: true,
 
-  devtool: 'cheap-module-source-map'
-}
-
-// ----
-
-if (NODE_ENV !== 'production') {
-  devtool: 'cheap-module-source-map'
-
-  config.output = '/'
-
-  config.plugins.push(new HotModuleReplacementPlugin())
-
-  config.devServer = {
+  devServer: {
     hot: true,
     inline: true,
     compress: true,
