@@ -21,7 +21,6 @@ jobs:
       - run: rm -rf /go
       - restore_cache:
           key: animu
-      - setup_remote_docker
       - run:
           name: Install dep and dependencies
           command: |
