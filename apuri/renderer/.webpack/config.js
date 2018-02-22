@@ -4,7 +4,7 @@ const { DefinePlugin, HotModuleReplacementPlugin } = require('webpack')
 
 const path = to => resolve(__dirname, to)
 
-const { NODE_ENV, S3_URL, GRAPHQL_URL, PORT } = process.env
+const { PORT } = process.env
 
 const config = {
   mode: 'development',
@@ -49,14 +49,7 @@ const config = {
       template: path('../app.html')
     }),
 
-    new HotModuleReplacementPlugin(),
-
-    new DefinePlugin({
-      NODE_ENV: `${NODE_ENV}`,
-      S3_URL: `${S3_URL || 'https://s3.eu-central-1.amazonaws.com'}/animux`,
-      GRAPHQL_URL: `${GRAPHQL_URL ||
-        'https://ch0zb8mjxi.execute-api.eu-central-1.amazonaws.com'}/${NODE_ENV}/graphql`
-    })
+    new HotModuleReplacementPlugin()
   ],
 
   // don't attempt to continue if there are any errors.
