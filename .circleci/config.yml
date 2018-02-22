@@ -36,7 +36,7 @@ jobs:
       - restore_cache:
           key: animu
       - run: npm install
-      - run: npm test
+      - run: npm run test:no-watch
 
 workflows:
   version: 2
