@@ -1,12 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
+// middlewares
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 
-import { reducer as anititles } from './actions/anititles'
-
-const reducers = {
-  anititles
-}
+const reducers = {}
 
 const middlewares = [thunk, logger]
 
