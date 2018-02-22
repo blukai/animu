@@ -7,7 +7,7 @@
     "dev:renderer": "cross-env NODE_ENV=development webpack-dev-server --config ./renderer/.webpack/config.js",
     "start": "concurrently --kill-others \"npm run dev:renderer\" \"npm run dev:main\"",
     "format": "prettier --write \"**/*.{js,jsx,json}\"",
-    "test": "jest --watch"
+    "test": "jest --watchAll"
   },
   "author": "blukai",
   "dependencies": {
