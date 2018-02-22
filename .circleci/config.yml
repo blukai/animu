@@ -30,7 +30,7 @@ jobs:
 
   test_apuri:
     docker:
-      - image: circleci/node
+      - image: node
     working_directory: /go/src/github.com/blukai/animu/apuri
     steps:
       - restore_cache:
