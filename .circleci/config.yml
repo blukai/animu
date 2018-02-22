@@ -28,6 +28,16 @@ jobs:
             dep ensure
       - run: make test
 
+  test_apuri:
+    docker:
+      - image: circleci/node
+    working_directory: /go/src/github.com/blukai/animu/apuri
+    steps:
+      - restore_cache:
+          key: animu
+      - run: npm install
+      - run: npm test
+
 workflows:
   version: 2
   animu:
@@ -35,5 +45,9 @@ workflows:
       - checkout_code
 
       - test_bakkuendo:
+          requires:
+            - checkout_code
+
+      - test_apuri:
           requires:
             - checkout_code
