@@ -1,29 +1,81 @@
-import { getAll } from './anititles'
+import gql from 'graphql-tag'
+
+import { getAll, getNew } from './anititles'
 
 describe('anititles', () => {
   describe('getAll', () => {
     test('should work', () => {
-      const data = [{ id: 12345, titles: [] }]
+      const result = [{ id: 12345, titles: [] }]
 
       const fetch = jest.fn()
       fetch.mockReturnValueOnce(
         Promise.resolve({
-          json: () => Promise.resolve(data)
+          json: () => Promise.resolve(result)
         })
       )
-      const process = {
-        env: {
-          S3_URL: 'https://s3.aws',
-          S3_BUCKET: 'secrit'
-        }
+      const config = {
+        S3_URL: 'https://s3.aws',
+        S3_BUCKET: 'secrit'
       }
 
-      return getAll({ fetch, process })().then(result => {
-        const { S3_URL, S3_BUCKET } = process.env
+      return getAll({ fetch, config })().then(res => {
+        const { S3_URL, S3_BUCKET } = config
         expect(fetch).toHaveBeenCalledWith(
           `${S3_URL}/${S3_BUCKET}/anime-titles.json.gz`
         )
-        expect(result).toEqual(data)
+
+        expect(res).toEqual(result)
+      })
+    })
+  })
+
+  // ----
+
+  describe('getNew', () => {
+    it('should work', () => {
+      const result = {
+        data: {
+          anititles: [
+            {
+              id: 12345,
+              titles: [
+                {
+                  type: 'main',
+                  lang: 'en',
+                  text: 'Kakegurui'
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      const client = {
+        query: jest.fn()
+      }
+      client.query.mockReturnValueOnce(Promise.resolve(result))
+
+      return getNew({ client })(12344).then(res => {
+        const query = gql`
+          query getNewAnititles($id: Int!) {
+            anititles(afterID: $id) {
+              id
+              titles {
+                type
+                lang
+                text
+              }
+            }
+          }
+        `
+        expect(client.query).toHaveBeenCalledWith({
+          query,
+          variables: {
+            id: 12344
+          }
+        })
+
+        expect(res).toEqual(result.data.anititles)
       })
     })
   })

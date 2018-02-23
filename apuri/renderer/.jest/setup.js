@@ -1,8 +1,14 @@
+import React from 'react'
+
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import React from 'react'
+
+// import configureStore from 'redux-mock-store'
+// import thunk from 'redux-thunk'
+
+global.React = React
 
 configure({ adapter: new Adapter() })
 
-// Make React available in all test files without importing
-global.React = React
+// const mockStore = configureStore([thunk])
+// global.mockStore = mockStore
