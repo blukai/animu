@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-import { getAll, getNew } from './anititles'
+import { getAll, getNew, getLast } from './anititles'
 
 describe('anititles', () => {
   describe('getAll', () => {
@@ -32,7 +32,7 @@ describe('anititles', () => {
   // ----
 
   describe('getNew', () => {
-    it('should work', () => {
+    test('should work', () => {
       const result = {
         data: {
           anititles: [
@@ -76,6 +76,22 @@ describe('anititles', () => {
         })
 
         expect(res).toEqual(result.data.anititles)
+      })
+    })
+  })
+
+  // ----
+
+  describe('getLast', () => {
+    test('should work', () => {
+      const db = {
+        toCollection: () => ({
+          last: () => Promise.resolve(undefined)
+        })
+      }
+
+      return getLast({ db })().then(item => {
+        console.log(item)
       })
     })
   })

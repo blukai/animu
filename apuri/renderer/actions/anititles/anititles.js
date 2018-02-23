@@ -1,5 +1,7 @@
 import gql from 'graphql-tag'
 
+// helper functions
+
 // getAll gets dump of anime titles
 export const getAll = ({ fetch, config: { S3_URL, S3_BUCKET } }) => () =>
   fetch(`${S3_URL}/${S3_BUCKET}/anime-titles.json.gz`).then(res => res.json())
@@ -28,3 +30,7 @@ export const getNew = ({ client }) => aftedID => {
     })
     .then(res => res.data.anititles)
 }
+
+// getLast get the last item, otherwise if no anime
+// found in the table, it'll return undefined
+export const getLast = ({ db }) => () => db.toCollection().last()
