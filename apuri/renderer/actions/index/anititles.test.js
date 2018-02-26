@@ -1,11 +1,11 @@
 import gql from 'graphql-tag'
 
 import {
-  getAll,
-  getNew,
-  getLast,
+  get_all,
+  get_new,
+  get_last,
   transform,
-  checkout,
+  update,
   types
 } from './anititles'
 
@@ -36,14 +36,14 @@ describe('anititles', () => {
 
   // ----
 
-  describe('getAll', () => {
+  describe('get_all', () => {
     test('should work', () => {
       const result = [{ id: 12345, titles: [] }]
 
       const fetch = jest.fn()
       fetch.mockReturnValueOnce(fetchMock(result))
 
-      return getAll({ fetch, config })().then(res => {
+      return get_all({ fetch, config })().then(res => {
         const { S3_URL, S3_BUCKET } = config
         expect(fetch).toHaveBeenCalledWith(
           `${S3_URL}/${S3_BUCKET}/anime-titles.json.gz`
@@ -56,7 +56,7 @@ describe('anititles', () => {
 
   // ----
 
-  describe('getNew', () => {
+  describe('get_new', () => {
     test('should work', () => {
       const result = {
         data: {
@@ -80,7 +80,7 @@ describe('anititles', () => {
       }
       client.query.mockReturnValueOnce(queryMock(result))
 
-      return getNew({ client })(12344).then(res => {
+      return get_new({ client })(12344).then(res => {
         const query = gql`
           query getNewAnititles($id: Int!) {
             anititles(afterID: $id) {
@@ -107,11 +107,11 @@ describe('anititles', () => {
 
   // ----
 
-  describe('getLast', () => {
+  describe('get_last', () => {
     test('should work', () => {
       const db = dbMock(undefined)
 
-      return getLast({ db })().then(item => {
+      return get_last({ db })().then(item => {
         expect(item).toEqual(undefined)
       })
     })
@@ -157,7 +157,7 @@ describe('anititles', () => {
 
   // ----
 
-  describe('checkout', () => {
+  describe('update', () => {
     let store
     beforeEach(() => {
       store = mockStore({})
@@ -179,7 +179,7 @@ describe('anititles', () => {
         ])
       )
 
-      return store.dispatch(checkout({ db, fetch, config })).then(() => {
+      return store.dispatch(update({ db, fetch, config })).then(() => {
         const actions = store.getActions()
         expect(actions[0]).toEqual({ type: types.loading })
         expect(actions[1]).toEqual({ type: types.ok })
@@ -212,7 +212,7 @@ describe('anititles', () => {
         })
       )
 
-      return store.dispatch(checkout({ db, client })).then(() => {
+      return store.dispatch(update({ db, client })).then(() => {
         const actions = store.getActions()
         expect(actions[0]).toEqual({ type: types.loading })
         expect(actions[1]).toEqual({ type: types.ok })

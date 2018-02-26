@@ -1,11 +1,11 @@
 import gql from 'graphql-tag'
 
-// getAll gets dump of anime titles
-export const getAll = ({ fetch, config: { S3_URL, S3_BUCKET } }) => () =>
+// get_all gets the dump of anime titles
+export const get_all = ({ fetch, config: { S3_URL, S3_BUCKET } }) => () =>
   fetch(`${S3_URL}/${S3_BUCKET}/anime-titles.json.gz`).then(res => res.json())
 
-// newNew gets only ones which id is higher than given
-export const getNew = ({ client }) => aftedID => {
+// get_new gets only ones which id is higher than given
+export const get_new = ({ client }) => afterId => {
   const query = gql`
     query getNewAnititles($id: Int!) {
       anititles(afterID: $id) {
@@ -23,15 +23,17 @@ export const getNew = ({ client }) => aftedID => {
     .query({
       query,
       variables: {
-        id: aftedID
+        id: afterId
       }
     })
     .then(res => res.data.anititles)
 }
 
-// getLast get the last item, otherwise if no anime
-// found in the table, it'll return undefined
-export const getLast = ({ db }) => () => db.toCollection().last()
+// ----
+
+// get_last get the last item from db,
+// if there is nothing, it'll return undefined
+export const get_last = ({ db }) => () => db.toCollection().last()
 
 // ----
 
@@ -60,21 +62,21 @@ export const transform = anititles =>
 // ----
 
 export const types = {
-  loading: 'anititles : checkout : loading',
-  ok: 'anititles : checkout : ok',
-  error: 'anititles : checkout : error'
+  loading: 'anititles : update : loading',
+  ok: 'anititles : update : ok',
+  error: 'anititles : update : error'
 }
 
-export const checkout = ({ db, fetch, config, client }) => async dispatch => {
+export const update = ({ db, fetch, config, client }) => async dispatch => {
   try {
     dispatch({ type: types.loading })
 
     let at = []
-    const last = await getLast({ db })()
+    const last = await get_last({ db })()
     if (last === undefined) {
-      at = await getAll({ fetch, config })()
+      at = await get_all({ fetch, config })()
     } else {
-      at = await getNew({ client })(last.id)
+      at = await get_new({ client })(last.id)
     }
     const transformed = transform(at)
     db.bulkPut(transformed)
