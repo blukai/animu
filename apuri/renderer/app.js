@@ -1,5 +1,44 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { func, shape, bool } from 'prop-types'
 
-const App = () => <h1 style={{ color: 'white' }}>Hellow</h1>
+import { connect } from 'react-redux'
 
-export default App
+import Container from './components/container'
+
+import updateIndex from './actions/index'
+
+class App extends Component {
+  static propTypes = {
+    updateIndex: func.isRequired,
+    index: shape({
+      loading: bool.isRequired,
+      error: bool.isRequired
+    }).isRequired
+  }
+
+  componentDidMount() {
+    this.props.updateIndex()
+  }
+
+  render() {
+    const { index } = this.props
+
+    return (
+      <Container error={index.error} loading={index.loading}>
+        <h1>Hellow</h1>
+      </Container>
+    )
+  }
+}
+
+const mapStateToProps = state => ({
+  index: state.index
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateIndex: () => {
+    dispatch(updateIndex)
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
