@@ -1,6 +1,13 @@
 import gql from 'graphql-tag'
 
-import { getAll, getNew, getLast, checkout, types } from './anititles'
+import {
+  getAll,
+  getNew,
+  getLast,
+  transform,
+  checkout,
+  types
+} from './anititles'
 
 describe('anititles', () => {
   // depencency injection
@@ -107,6 +114,44 @@ describe('anititles', () => {
       return getLast({ db })().then(item => {
         expect(item).toEqual(undefined)
       })
+    })
+  })
+
+  // ----
+
+  describe('transform', () => {
+    test('should work', () => {
+      const actual = [
+        {
+          id: 6327,
+          titles: [
+            {
+              lang: 'x-jat',
+              type: 'main',
+              text: 'Bakemonogatari'
+            },
+            {
+              lang: 'en',
+              type: 'official',
+              text: 'Bakemonogatari'
+            },
+            {
+              lang: 'ja',
+              type: 'official',
+              text: '化物語'
+            }
+          ]
+        }
+      ]
+
+      const expected = [
+        {
+          id: 6327,
+          titles: ['Bakemonogatari', 'Bakemonogatari', '化物語']
+        }
+      ]
+
+      expect(transform(actual)).toEqual(expected)
     })
   })
 

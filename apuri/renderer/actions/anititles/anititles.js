@@ -33,7 +33,29 @@ export const getNew = ({ client }) => aftedID => {
 // found in the table, it'll return undefined
 export const getLast = ({ db }) => () => db.toCollection().last()
 
-// TODO: transform anititles
+// ----
+
+// transform transforms the array of anime titiles
+// to match db schema.
+// titles array has reserved indexes.
+export const transform = anititles =>
+  anititles.map(({ id, titles }) => ({
+    id,
+    titles: titles.reduce(
+      (prev, { lang, type, text }) => {
+        const next = prev.slice()
+        if (lang === 'x-jat' && type === 'main') {
+          next[0] = text
+        } else if (lang === 'en' && type === 'official') {
+          next[1] = text
+        } else {
+          next.push(text)
+        }
+        return next
+      },
+      [/* x-jat main */ '', /* en official */ '']
+    )
+  }))
 
 // ----
 
@@ -54,7 +76,8 @@ export const checkout = ({ db, fetch, config, client }) => async dispatch => {
     } else {
       at = await getNew({ client })(last.id)
     }
-    db.bulkPut(at)
+    const transformed = transform(at)
+    db.bulkPut(transformed)
 
     dispatch({ type: types.ok })
   } catch (err) {
