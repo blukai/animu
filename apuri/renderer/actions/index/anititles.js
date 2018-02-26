@@ -33,7 +33,7 @@ export const get_new = ({ client }) => afterId => {
 
 // get_last get the last item from db,
 // if there is nothing, it'll return undefined
-export const get_last = ({ db }) => () => db.toCollection().last()
+export const get_last = ({ db }) => () => db.anititles.toCollection().last()
 
 // ----
 
@@ -79,7 +79,7 @@ export const update = ({ db, fetch, config, client }) => async dispatch => {
       at = await get_new({ client })(last.id)
     }
     const transformed = transform(at)
-    db.bulkPut(transformed)
+    db.anititles.bulkPut(transformed)
 
     dispatch({ type: types.ok })
   } catch (err) {

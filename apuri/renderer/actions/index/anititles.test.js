@@ -25,12 +25,14 @@ describe('anititles action', () => {
   const queryMock = val => Promise.resolve(val)
 
   const dbMock = val => ({
-    toCollection: () => ({
-      last: () => Promise.resolve(val)
-    }),
-    bulkPut: items => {
-      const len = items.length
-      return len > 0 ? items[len - 1] : items
+    anititles: {
+      toCollection: () => ({
+        last: () => Promise.resolve(val)
+      }),
+      bulkPut: items => {
+        const len = items.length
+        return len > 0 ? items[len - 1] : items
+      }
     }
   })
 

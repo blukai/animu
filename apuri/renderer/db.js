@@ -6,4 +6,4 @@ db.version(1).stores({
   anititles: 'id, *titles'
 })
 
-export const anititles = db.anititles
+export default db
