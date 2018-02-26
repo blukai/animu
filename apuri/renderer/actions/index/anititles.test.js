@@ -9,7 +9,7 @@ import {
   types
 } from './anititles'
 
-describe('anititles', () => {
+describe('anititles action', () => {
   // depencency injection
 
   const config = {

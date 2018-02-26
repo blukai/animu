@@ -62,9 +62,9 @@ export const transform = anititles =>
 // ----
 
 export const types = {
-  loading: 'anititles : update : loading',
-  ok: 'anititles : update : ok',
-  error: 'anititles : update : error'
+  loading: 'index : update : loading',
+  ok: 'index : update : ok',
+  error: 'index : update : error'
 }
 
 export const update = ({ db, fetch, config, client }) => async dispatch => {
