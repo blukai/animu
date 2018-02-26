@@ -5,6 +5,8 @@ import {
   get_new,
   get_last,
   transform,
+  shouldUpdate,
+  setUpdateTime,
   update,
   types
 } from './anititles'
@@ -159,6 +161,54 @@ describe('anititles action', () => {
 
   // ----
 
+  describe('shouldUpdate', () => {
+    test('should get the exact key', () => {
+      const localStorage = {
+        getItem: jest.fn()
+      }
+      localStorage.getItem.mockReturnValueOnce(null)
+
+      shouldUpdate({ localStorage })()
+      expect(localStorage.getItem).toHaveBeenCalledWith('index_updated_at')
+    })
+
+    // ----
+
+    test('should be true', () => {
+      const localStorage = {
+        getItem: jest.fn()
+      }
+      localStorage.getItem.mockReturnValueOnce(null)
+
+      expect(shouldUpdate({ localStorage })()).toEqual(true)
+    })
+
+    // ----
+
+    test('should be false', () => {
+      const localStorage = {
+        getItem: jest.fn()
+      }
+      localStorage.getItem.mockReturnValueOnce(new Date())
+
+      expect(shouldUpdate({ localStorage })()).toEqual(false)
+    })
+  })
+
+  // ----
+
+  describe('setUpdateTime', () => {
+    const localStorage = {
+      setItem: jest.fn()
+    }
+
+    const time = new Date()
+    setUpdateTime({ localStorage })(time)
+    expect(localStorage.setItem).toHaveBeenCalledWith('index_updated_at', time)
+  })
+
+  // ----
+
   describe('update', () => {
     let store
     beforeEach(() => {
@@ -167,6 +217,7 @@ describe('anititles action', () => {
 
     test('should get all', () => {
       const db = dbMock(undefined)
+
       const fetch = jest.fn()
       fetch.mockReturnValueOnce(
         fetchMock([
@@ -181,11 +232,18 @@ describe('anititles action', () => {
         ])
       )
 
-      return store.dispatch(update({ db, fetch, config })).then(() => {
-        const actions = store.getActions()
-        expect(actions[0]).toEqual({ type: types.loading })
-        expect(actions[1]).toEqual({ type: types.ok })
-      })
+      const localStorage = {
+        getItem: () => null,
+        setItem: () => {}
+      }
+
+      return store
+        .dispatch(update({ db, fetch, config, localStorage }))
+        .then(() => {
+          const actions = store.getActions()
+          expect(actions[0]).toEqual({ type: types.loading })
+          expect(actions[1]).toEqual({ type: types.ok })
+        })
     })
 
     // ----
@@ -214,7 +272,12 @@ describe('anititles action', () => {
         })
       )
 
-      return store.dispatch(update({ db, client })).then(() => {
+      const localStorage = {
+        getItem: () => null,
+        setItem: () => {}
+      }
+
+      return store.dispatch(update({ db, client, localStorage })).then(() => {
         const actions = store.getActions()
         expect(actions[0]).toEqual({ type: types.loading })
         expect(actions[1]).toEqual({ type: types.ok })

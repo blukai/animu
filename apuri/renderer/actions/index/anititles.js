@@ -61,25 +61,49 @@ export const transform = anititles =>
 
 // ----
 
+export const shouldUpdate = ({ localStorage }) => () => {
+  const updatedAt = localStorage.getItem('index_updated_at')
+  if (!updatedAt || Math.abs(updatedAt - new Date().getTime()) / 36e5 > 24) {
+    return true
+  }
+  return false
+}
+
+export const setUpdateTime = ({ localStorage }) => (
+  time = new Date().getTime()
+) => {
+  localStorage.setItem('index_updated_at', time)
+}
+
+// ----
+
 export const types = {
   loading: 'index : update : loading',
   ok: 'index : update : ok',
   error: 'index : update : error'
 }
 
-export const update = ({ db, fetch, config, client }) => async dispatch => {
+export const update = ({
+  db,
+  fetch,
+  config,
+  client,
+  localStorage
+}) => async dispatch => {
   try {
     dispatch({ type: types.loading })
 
-    let at = []
     const last = await get_last({ db })()
-    if (last === undefined) {
-      at = await get_all({ fetch, config })()
-    } else {
-      at = await get_new({ client })(last.id)
+    if (shouldUpdate({ localStorage })() || last === undefined) {
+      let at = []
+      if (last === undefined) {
+        at = await get_all({ fetch, config })()
+      } else {
+        at = await get_new({ client })(last.id)
+      }
+      db.anititles.bulkPut(transform(at))
+      setUpdateTime({ localStorage })()
     }
-    const transformed = transform(at)
-    db.anititles.bulkPut(transformed)
 
     dispatch({ type: types.ok })
   } catch (err) {
