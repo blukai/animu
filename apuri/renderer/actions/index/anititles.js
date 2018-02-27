@@ -1,13 +1,13 @@
 import gql from 'graphql-tag'
 
-// get_all gets the dump of anime titles
-export const get_all = ({ fetch, config: { S3_URL, S3_BUCKET } }) => () =>
+// getAll gets the dump of anime titles
+export const getAll = ({ fetch, config: { S3_URL, S3_BUCKET } }) => () =>
   fetch(`${S3_URL}/${S3_BUCKET}/anime-titles.json.gz`).then(res => res.json())
 
-// get_new gets only ones which id is higher than given
-export const get_new = ({ client }) => afterId => {
+// getNew gets only ones which id is higher than given
+export const getNew = ({ client }) => id => {
   const query = gql`
-    query getNewAnititles($id: Int!) {
+    query($id: Int!) {
       anititles(afterID: $id) {
         id
         titles {
@@ -20,20 +20,29 @@ export const get_new = ({ client }) => afterId => {
   `
 
   return client
-    .query({
-      query,
-      variables: {
-        id: afterId
-      }
-    })
+    .query({ query, variables: { id } })
     .then(res => res.data.anititles)
 }
 
 // ----
 
-// get_last get the last item from db,
+// getLast get the last item from db,
 // if there is nothing, it'll return undefined
-export const get_last = ({ db }) => () => db.anititles.toCollection().last()
+export const getLast = ({ db }) => () => db.anititles.toCollection().last()
+
+// ----
+
+export const getUpdateTime = ({ localStorage }) => () =>
+  localStorage.getItem('anititlesUpdatedAt')
+
+export const setUpdateTime = ({ localStorage }) => (
+  time = new Date().getTime()
+) => localStorage.setItem('anititlesUpdatedAt', time)
+
+export const shouldUpdate = ({ localStorage }) => () => {
+  const updatedAt = getUpdateTime({ localStorage })()
+  return !updatedAt || Math.abs(updatedAt - new Date().getTime()) / 36e5 > 24
+}
 
 // ----
 
@@ -61,47 +70,39 @@ export const transform = anititles =>
 
 // ----
 
-export const shouldUpdate = ({ localStorage }) => () => {
-  const updatedAt = localStorage.getItem('index_updated_at')
-  if (!updatedAt || Math.abs(updatedAt - new Date().getTime()) / 36e5 > 24) {
-    return true
-  }
-  return false
-}
-
-export const setUpdateTime = ({ localStorage }) => (
-  time = new Date().getTime()
-) => {
-  localStorage.setItem('index_updated_at', time)
-}
-
-// ----
-
 export const types = {
   loading: 'index : update : loading',
   ok: 'index : update : ok',
-  error: 'index : update : error'
+  error: 'index : update : error',
+  all: 'index : update : all',
+  new: 'index : update : new'
 }
 
 export const update = ({
+  localStorage,
   db,
   fetch,
   config,
-  client,
-  localStorage
+  client
 }) => async dispatch => {
   try {
     dispatch({ type: types.loading })
 
-    const last = await get_last({ db })()
+    const last = await getLast({ db })()
     if (shouldUpdate({ localStorage })() || last === undefined) {
-      let at = []
+      let rawData
       if (last === undefined) {
-        at = await get_all({ fetch, config })()
+        dispatch({ type: types.all }) // used only for testing
+
+        rawData = await getAll({ fetch, config })()
       } else {
-        at = await get_new({ client })(last.id)
+        dispatch({ type: types.new }) // used only for testing
+
+        rawData = await getNew({ client })(last.id)
       }
-      db.anititles.bulkPut(transform(at))
+
+      const transformedData = transform(rawData)
+      db.anititles.bulkPut(transformedData)
       setUpdateTime({ localStorage })()
     }
 

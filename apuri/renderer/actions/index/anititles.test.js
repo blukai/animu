@@ -1,121 +1,98 @@
 import gql from 'graphql-tag'
 
 import {
-  get_all,
-  get_new,
-  get_last,
-  transform,
-  shouldUpdate,
+  getAll,
+  getNew,
+  getLast,
+  getUpdateTime,
   setUpdateTime,
+  shouldUpdate,
+  transform,
   update,
   types
 } from './anititles'
 
-describe('anititles action', () => {
-  // depencency injection
+describe('anititles actions', () => {
+  const oldDate = new Date(2018, 0, 1)
 
-  const config = {
-    S3_URL: 'https://s3.aws',
-    S3_BUCKET: 'secrit'
-  }
-
-  const fetchMock = val =>
-    Promise.resolve({
-      json: () => Promise.resolve(val)
-    })
-
-  const queryMock = val => Promise.resolve(val)
-
-  const dbMock = val => ({
-    anititles: {
-      toCollection: () => ({
-        last: () => Promise.resolve(val)
-      }),
-      bulkPut: items => {
-        const len = items.length
-        return len > 0 ? items[len - 1] : items
-      }
-    }
-  })
-
-  // ----
-
-  describe('get_all', () => {
-    test('should work', () => {
-      const result = [{ id: 12345, titles: [] }]
+  describe('getAll', () => {
+    it('works', () => {
+      const data = [{ id: 666, titles: [] }]
 
       const fetch = jest.fn()
-      fetch.mockReturnValueOnce(fetchMock(result))
+      fetch.mockReturnValueOnce(
+        Promise.resolve({
+          json: () => Promise.resolve(data)
+        })
+      )
 
-      return get_all({ fetch, config })().then(res => {
-        const { S3_URL, S3_BUCKET } = config
+      const config = {
+        S3_URL: 'https://s3.aws/',
+        S3_BUCKET: 'secrit'
+      }
+
+      return getAll({ fetch, config })().then(at => {
+        expect(at).toEqual(data)
         expect(fetch).toHaveBeenCalledWith(
-          `${S3_URL}/${S3_BUCKET}/anime-titles.json.gz`
+          `${config.S3_URL}/${config.S3_BUCKET}/anime-titles.json.gz`
         )
-
-        expect(res).toEqual(result)
       })
     })
   })
 
   // ----
 
-  describe('get_new', () => {
-    test('should work', () => {
-      const result = {
-        data: {
-          anititles: [
-            {
-              id: 12345,
-              titles: [
-                {
-                  type: 'main',
-                  lang: 'en',
-                  text: 'Kakegurui'
-                }
-              ]
-            }
-          ]
-        }
-      }
+  describe('getNew', () => {
+    it('works', () => {
+      const data = [{ id: 666, titles: [] }]
 
       const client = {
         query: jest.fn()
       }
-      client.query.mockReturnValueOnce(queryMock(result))
-
-      return get_new({ client })(12344).then(res => {
-        const query = gql`
-          query getNewAnititles($id: Int!) {
-            anititles(afterID: $id) {
-              id
-              titles {
-                type
-                lang
-                text
-              }
-            }
-          }
-        `
-        expect(client.query).toHaveBeenCalledWith({
-          query,
-          variables: {
-            id: 12344
+      client.query.mockReturnValueOnce(
+        Promise.resolve({
+          data: {
+            anititles: data
           }
         })
+      )
 
-        expect(res).toEqual(result.data.anititles)
+      return getNew({ client })(665).then(res => {
+        expect(res).toEqual(data)
+        expect(client.query).toHaveBeenCalledWith({
+          query: gql`
+            query($id: Int!) {
+              anititles(afterID: $id) {
+                id
+                titles {
+                  type
+                  lang
+                  text
+                }
+              }
+            }
+          `,
+          variables: {
+            id: 665
+          }
+        })
       })
     })
   })
 
   // ----
 
-  describe('get_last', () => {
-    test('should work', () => {
-      const db = dbMock(undefined)
+  describe('getLast', () => {
+    it('works', () => {
+      const db = {
+        anititles: {
+          toCollection: () => ({
+            last: () => Promise.resolve(undefined)
+          })
+        }
+      }
 
-      return get_last({ db })().then(item => {
+      return getLast({ db })().then(item => {
         expect(item).toEqual(undefined)
       })
     })
@@ -123,9 +100,68 @@ describe('anititles action', () => {
 
   // ----
 
+  describe('getUpdateTime', () => {
+    it('works', () => {
+      const localStorage = {
+        getItem: jest.fn()
+      }
+      localStorage.getItem.mockReturnValueOnce(undefined)
+
+      expect(getUpdateTime({ localStorage })()).toEqual(undefined)
+      expect(localStorage.getItem).toHaveBeenCalledWith('anititlesUpdatedAt')
+    })
+  })
+
+  describe('setUpdateTime', () => {
+    it('works', () => {
+      const localStorage = {
+        setItem: jest.fn()
+      }
+
+      const time = new Date()
+      setUpdateTime({ localStorage })(time)
+
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'anititlesUpdatedAt',
+        time
+      )
+    })
+  })
+
+  describe('shouldUpdate', () => {
+    it('should update 1', () => {
+      const localStorage = {
+        getItem: jest.fn()
+      }
+      localStorage.getItem.mockReturnValueOnce(null)
+
+      expect(shouldUpdate({ localStorage })()).toEqual(true)
+    })
+
+    it('should update 2', () => {
+      const localStorage = {
+        getItem: jest.fn()
+      }
+      localStorage.getItem.mockReturnValueOnce(oldDate)
+
+      expect(shouldUpdate({ localStorage })()).toEqual(true)
+    })
+
+    it('should not update', () => {
+      const localStorage = {
+        getItem: jest.fn()
+      }
+      localStorage.getItem.mockReturnValueOnce(new Date())
+
+      expect(shouldUpdate({ localStorage })()).toEqual(false)
+    })
+  })
+
+  // ----
+
   describe('transform', () => {
-    test('should work', () => {
-      const actual = [
+    it('works', () => {
+      const data = [
         {
           id: 6327,
           titles: [
@@ -148,63 +184,10 @@ describe('anititles action', () => {
         }
       ]
 
-      const expected = [
-        {
-          id: 6327,
-          titles: ['Bakemonogatari', 'Bakemonogatari', '化物語']
-        }
-      ]
-
-      expect(transform(actual)).toEqual(expected)
+      expect(transform(data)).toEqual([
+        { id: 6327, titles: ['Bakemonogatari', 'Bakemonogatari', '化物語'] }
+      ])
     })
-  })
-
-  // ----
-
-  describe('shouldUpdate', () => {
-    test('should get the exact key', () => {
-      const localStorage = {
-        getItem: jest.fn()
-      }
-      localStorage.getItem.mockReturnValueOnce(null)
-
-      shouldUpdate({ localStorage })()
-      expect(localStorage.getItem).toHaveBeenCalledWith('index_updated_at')
-    })
-
-    // ----
-
-    test('should be true', () => {
-      const localStorage = {
-        getItem: jest.fn()
-      }
-      localStorage.getItem.mockReturnValueOnce(null)
-
-      expect(shouldUpdate({ localStorage })()).toEqual(true)
-    })
-
-    // ----
-
-    test('should be false', () => {
-      const localStorage = {
-        getItem: jest.fn()
-      }
-      localStorage.getItem.mockReturnValueOnce(new Date())
-
-      expect(shouldUpdate({ localStorage })()).toEqual(false)
-    })
-  })
-
-  // ----
-
-  describe('setUpdateTime', () => {
-    const localStorage = {
-      setItem: jest.fn()
-    }
-
-    const time = new Date()
-    setUpdateTime({ localStorage })(time)
-    expect(localStorage.setItem).toHaveBeenCalledWith('index_updated_at', time)
   })
 
   // ----
@@ -215,73 +198,88 @@ describe('anititles action', () => {
       store = mockStore({})
     })
 
-    test('should get all', () => {
-      const db = dbMock(undefined)
-
-      const fetch = jest.fn()
-      fetch.mockReturnValueOnce(
-        fetchMock([
-          {
-            id: 12345,
-            titles: []
-          },
-          {
-            id: 54321,
-            titles: []
-          }
-        ])
-      )
-
+    it('should get new because off last update time', () => {
       const localStorage = {
-        getItem: () => null,
+        getItem: () => oldDate,
         setItem: () => {}
+      }
+
+      const db = {
+        anititles: {
+          toCollection: () => ({
+            last: () => Promise.resolve([{ id: 666, titles: [] }])
+          }),
+          bulkPut: items => {
+            const len = items.length
+            return len > 0 ? items[len - 1] : items
+          }
+        }
+      }
+
+      const fetch = () =>
+        Promise.resolve({
+          json: () => Promise.resolve([])
+        })
+
+      const config = {
+        S3_URL: 'https://s3.aws/',
+        S3_BUCKET: 'secrit'
+      }
+
+      const client = {
+        query: () => Promise.resolve({ data: { anititles: [] } })
       }
 
       return store
-        .dispatch(update({ db, fetch, config, localStorage }))
+        .dispatch(update({ localStorage, db, fetch, config, client }))
         .then(() => {
           const actions = store.getActions()
-          expect(actions[0]).toEqual({ type: types.loading })
-          expect(actions[1]).toEqual({ type: types.ok })
+          const [loading, newt, ok] = actions
+
+          expect(loading).toEqual({ type: types.loading })
+          expect(newt).toEqual({ type: types.new })
+          expect(ok).toEqual({ type: types.ok })
         })
     })
 
-    // ----
-
-    test('should get new', () => {
-      const db = dbMock([
-        {
-          id: 12345,
-          titles: []
-        }
-      ])
-
-      const client = {
-        query: jest.fn()
-      }
-      client.query.mockReturnValueOnce(
-        queryMock({
-          data: {
-            anititles: [
-              {
-                id: 99999,
-                titles: []
-              }
-            ]
-          }
-        })
-      )
-
+    it('should get all because off no data', () => {
       const localStorage = {
         getItem: () => null,
         setItem: () => {}
       }
 
-      return store.dispatch(update({ db, client, localStorage })).then(() => {
-        const actions = store.getActions()
-        expect(actions[0]).toEqual({ type: types.loading })
-        expect(actions[1]).toEqual({ type: types.ok })
-      })
+      const db = {
+        anititles: {
+          toCollection: () => ({
+            last: () => Promise.resolve(undefined)
+          }),
+          bulkPut: items => {
+            const len = items.length
+            return len > 0 ? items[len - 1] : items
+          }
+        }
+      }
+
+      const fetch = () =>
+        Promise.resolve({
+          json: () => Promise.resolve([])
+        })
+
+      const config = {
+        S3_URL: 'https://s3.aws/',
+        S3_BUCKET: 'secrit'
+      }
+
+      return store
+        .dispatch(update({ localStorage, db, fetch, config }))
+        .then(() => {
+          const actions = store.getActions()
+          const [loading, all, ok] = actions
+
+          expect(loading).toEqual({ type: types.loading })
+          expect(all).toEqual({ type: types.all })
+          expect(ok).toEqual({ type: types.ok })
+        })
     })
   })
 })
