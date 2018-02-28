@@ -6,9 +6,7 @@ export const Error = () => 'Oops. Something went wrong.'
 export const Loading = () => 'Loading..'
 
 const Container = ({ error, loading, children }) => (
-  <div style={{ color: 'white' }}>
-    {error ? <Error /> : loading ? <Loading /> : children}
-  </div>
+  <>{error ? <Error /> : loading ? <Loading /> : children}</>
 )
 
 Container.propTypes = {
