@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { func, shape, bool } from 'prop-types'
+import { hot } from 'react-hot-loader'
 
 import { connect } from 'react-redux'
 
@@ -41,4 +42,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(App))
