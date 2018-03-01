@@ -2,7 +2,7 @@ import { update } from './anititles'
 
 import db from '../../db'
 import { S3_URL, S3_BUCKET } from '../../../config'
-import client from '../../apollo'
+import client from '../../providers/apollo'
 
 export default update({
   db,

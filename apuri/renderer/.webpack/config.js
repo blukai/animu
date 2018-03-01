@@ -8,15 +8,14 @@ const { PORT } = process.env
 
 const config = {
   mode: 'development',
-
+  // don't attempt to continue if there are any errors.
+  bail: true,
+  devtool: 'cheap-module-source-map',
   target: 'electron-renderer',
-
   entry: path('../main.js'),
-
   resolve: {
     extensions: ['.js', '.jsx']
   },
-
   module: {
     rules: [
       {
@@ -44,18 +43,12 @@ const config = {
       }
     ]
   },
-
   plugins: [
     new HtmlWebpackPlugin({
       template: path('../app.html')
     }),
-
     new HotModuleReplacementPlugin()
   ],
-
-  // don't attempt to continue if there are any errors.
-  bail: true,
-
   devServer: {
     hot: true,
     inline: true,
