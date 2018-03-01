@@ -5,6 +5,7 @@ import { hot } from 'react-hot-loader'
 import { connect } from 'react-redux'
 
 import Container from './components/container'
+import Appbar from './appbar'
 
 import updateIndex from './actions/index'
 
@@ -26,6 +27,7 @@ class App extends Component {
 
     return (
       <Container error={index.error} loading={index.loading}>
+        <Appbar />
         <h1>Hellow</h1>
       </Container>
     )
