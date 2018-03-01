@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import index from './index/index'
+import anititles from './anititles'
 
 export default combineReducers({
-  index
+  anititles
 })

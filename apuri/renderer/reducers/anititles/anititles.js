@@ -1,4 +1,4 @@
-import { types } from '../../actions/index'
+import { types } from '../../actions/anititles'
 
 const initialState = { loading: false, error: false }
 export default (state = initialState, { type }) => {

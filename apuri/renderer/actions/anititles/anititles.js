@@ -71,11 +71,11 @@ export const transform = anititles =>
 // ----
 
 export const types = {
-  loading: 'index : update : loading',
-  ok: 'index : update : ok',
-  error: 'index : update : error',
-  all: 'index : update : all',
-  new: 'index : update : new'
+  loading: 'anititles : update : loading',
+  ok: 'anititles : update : ok',
+  error: 'anititles : update : error',
+  all: 'anititles : update : all',
+  new: 'anititles : update : new'
 }
 
 export const update = ({
