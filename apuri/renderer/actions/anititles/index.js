@@ -1,6 +1,6 @@
 import { update } from './anititles'
 
-import db from '../../db'
+import db from '../../providers/dexie'
 import { S3_URL, S3_BUCKET } from '../../../config'
 import client from '../../providers/apollo'
 
