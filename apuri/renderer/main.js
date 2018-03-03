@@ -15,7 +15,6 @@ import theme from './providers/mui'
 import Appbar from './appbar'
 
 import Main from './pages/main'
-import Search from './pages/search'
 import Anime from './pages/anime'
 
 render(
@@ -27,7 +26,6 @@ render(
           <Appbar />
           <Switch>
             <Route exact path="/" component={Main} />
-            <Route path="/search/:query" component={Search} />
             <Route path="/anime/:id" component={Anime} />
           </Switch>
         </MuiThemeProvider>

@@ -20,6 +20,10 @@ export default (state = initialState, { type, payload }) => {
         loading: false,
         payload
       }
+    case suggestionsTypes.clear:
+      return {
+        ...initialState
+      }
     default:
       return state
   }

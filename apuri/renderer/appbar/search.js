@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
-import { object, func, shape, bool, array } from 'prop-types'
+import { bool, arrayOf, shape, func, number, string, object } from 'prop-types'
 
 import { connect } from 'react-redux'
-
+import { withRouter } from 'react-router-dom'
 import { withStyles } from 'material-ui/styles'
+
+import Autosuggest from 'react-autosuggest'
 import Input, { InputAdornment } from 'material-ui/Input'
 import Paper from 'material-ui/Paper'
-import { ListItem, ListItemText } from 'material-ui/List'
-import IconButton from 'material-ui/IconButton'
+import { MenuItem } from 'material-ui/Menu'
+import { ListItemText } from 'material-ui/List'
 import SearchIcon from 'material-ui-icons/Search'
-import ClearIcon from 'material-ui-icons/Clear'
 
-import { getSearchSuggestions } from '../actions/search'
+import { getSuggestions, clearSuggestions } from '../actions/search'
 
 const styles = theme => ({
   container: {
@@ -21,7 +22,30 @@ const styles = theme => ({
     position: 'relative',
     height: '100%'
   },
-
+  suggestionsContainer: {
+    position: 'absolute',
+    width: '100%',
+    top: '100%'
+  },
+  suggestionsList: {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none'
+  },
+  suggestionItem: {
+    padding: `6px 10px`,
+    height: 'auto'
+  },
+  suggestionItemTextPrimary: {
+    fontSize: 15,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis'
+  },
+  suggestionItemTextSecondary: {
+    fontSize: 13,
+    fontWeight: theme.typography.fontWeightLight
+  },
   input: {
     '&:before, &:after': {
       content: 'none'
@@ -34,221 +58,160 @@ const styles = theme => ({
   inputIcon: {
     width: 20,
     height: 20
-  },
-  inputButton: {
-    width: 20,
-    height: 20
-  },
-
-  suggestions: {
-    position: 'absolute',
-    width: '100%',
-    top: '100%'
-  },
-  suggestionItem: {
-    padding: `10px 14px`
-  },
-  suggestionItemTextPrimary: {
-    fontSize: 14
-  },
-  suggestionItemTextSecondary: {
-    fontSize: 13,
-    fontWeight: theme.typography.fontWeightLight
   }
 })
 
 class Search extends Component {
   static propTypes = {
+    error: bool.isRequired,
+    loading: bool.isRequired,
+    suggestions: arrayOf(
+      shape({
+        id: number.isRequired,
+        titles: arrayOf(string).isRequired
+      }).isRequired
+    ).isRequired,
+    onSuggestionsFetchRequested: func.isRequired,
+    onSuggestionsClearRequested: func.isRequired,
     classes: object.isRequired,
-    getSuggestions: func.isRequired,
-    suggestions: shape({
-      error: bool.isRequired,
-      loading: bool.isRequired,
-      payload: array.isRequired
-    }).isRequired
+    history: object.isRequired,
+    location: object.isRequired
   }
 
   // ----
 
   state = {
-    value: '',
-    suggestions: [],
-    focused: false
+    value: ''
   }
-
-  input = null
 
   // ----
 
-  componentWillUpdate(nextProps) {
-    const { payload: prev } = this.props.suggestions
-    const { payload: next } = nextProps.suggestions
-    if (
-      prev.length !== next.length ||
-      !prev.every(({ id }, index) => id === next[index].id)
-    ) {
-      this.transformSuggestions(next)
-    }
+  onChange = (event, { newValue }) => {
+    this.setState({ value: newValue })
   }
 
-  // input actions
+  getSuggestionValue = ({ titles }) => titles[0]
 
-  clear = () => {
-    this.setState({ value: '' })
-    this.focus()
-  }
-
-  focus = () => {
-    if (this.input) {
-      this.input.focus()
-    }
-  }
-
-  blur = () => {
-    if (this.input) {
-      this.input.blur()
-    }
-  }
-
-  // input handlers
-
-  handleChange = event => {
+  onSuggestionSelected = (event, { suggestion }) => {
     event.preventDefault()
-    const { value } = event.target
-    this.setState({ value })
-    if (this.shouldSuggest()) {
-      this.props.getSuggestions(value)
+
+    const { pathname: prev } = this.props.location
+    const next = `/anime/${suggestion.id}`
+    if (prev !== next) {
+      this.props.history.push(next)
     }
-  }
-
-  handleFocus = () => {
-    this.setState({ focused: true })
-  }
-
-  handleBlur = () => {
-    this.setState({ focused: false })
-  }
-
-  handleKey = event => {
-    const { key } = event
-    if (key === 'Escape') {
-      this.blur()
-    }
-  }
-
-  // helpers
-
-  shouldSuggest() {
-    const { value } = this.state
-    return value && value.length >= 3
-  }
-
-  transformSuggestions(suggestions) {
-    this.setState({
-      suggestions: suggestions.reduce(
-        (prev, item) =>
-          prev.find(({ id }) => id === item.id)
-            ? prev
-            : prev.concat({
-                id: item.id,
-                titles: {
-                  main: item.titles[0],
-                  official: item.titles[1]
-                }
-              }),
-        []
-      )
-    })
   }
 
   // renderers
 
-  renderInput() {
+  renderInput = props => {
+    const { ref, ...inputProps } = props
     const { classes } = this.props
     const { value } = this.state
 
     return (
       <Input
-        fullWidth
-        value={value}
-        placeholder="Anime Search"
         className={classes.input}
-        inputRef={input => {
-          this.input = input
-        }}
-        onChange={this.handleChange}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onKeyDown={this.handleKey}
+        fullWidth
+        inputRef={ref}
+        inputProps={inputProps}
         startAdornment={
           <InputAdornment position="start">
             <SearchIcon
               className={classes.inputIcon}
-              color={this.state.focused ? 'inherit' : 'disabled'}
+              color={value && value.length > 0 ? 'inherit' : 'disabled'}
             />
           </InputAdornment>
-        }
-        endAdornment={
-          value && (
-            <InputAdornment position="end">
-              <IconButton className={classes.inputButton} onClick={this.clear}>
-                <ClearIcon className={classes.inputIcon} />
-              </IconButton>
-            </InputAdornment>
-          )
         }
       />
     )
   }
 
-  renderSuggestions() {
-    const { classes, suggestions } = this.props
-    const { value } = this.state
+  renderSuggestion = ({ titles }) => titles[0]
+
+  renderSuggestionsContainer = ({ containerProps, children }) => (
+    <Paper {...containerProps} square>
+      {children}
+    </Paper>
+  )
+
+  renderSuggestion = ({ id, titles }, { query, isHighlighted }) => {
+    const { classes } = this.props
+    const [mainTitle, officialTitle] = titles
 
     return (
-      <Paper square className={classes.suggestions}>
-        {this.shouldSuggest() &&
-          this.state.focused &&
-          this.state.suggestions.map(({ id, titles: { main, official } }) => (
-            <ListItem key={id} button className={classes.suggestionItem}>
-              <ListItemText
-                primary={main}
-                secondary={main !== official && official}
-                classes={{
-                  primary: classes.suggestionItemTextPrimary,
-                  secondary: classes.suggestionItemTextSecondary
-                }}
-              />
-            </ListItem>
-          ))}
-      </Paper>
+      <MenuItem
+        selected={isHighlighted}
+        component="div"
+        className={classes.suggestionItem}
+      >
+        <ListItemText
+          primary={mainTitle || officialTitle}
+          secondary={mainTitle && mainTitle !== officialTitle && officialTitle}
+          classes={{
+            primary: classes.suggestionItemTextPrimary,
+            secondary: classes.suggestionItemTextSecondary
+          }}
+        />
+      </MenuItem>
     )
   }
 
   // ----
 
   render() {
-    const { classes } = this.props
+    const {
+      error,
+      loading,
+      suggestions,
+      onSuggestionsFetchRequested,
+      onSuggestionsClearRequested,
+      classes
+    } = this.props
 
     return (
-      <div className={classes.container}>
-        {this.renderInput()}
-        {this.renderSuggestions()}
-      </div>
+      <Autosuggest
+        theme={{
+          container: classes.container,
+          suggestionsContainer: classes.suggestionsContainer,
+          suggestionsList: classes.suggestionsList
+        }}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        suggestions={suggestions}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestionsContainer={this.renderSuggestionsContainer}
+        renderSuggestion={this.renderSuggestion}
+        renderInputComponent={this.renderInput}
+        inputProps={{
+          placeholder: 'Anime Search',
+          value: this.state.value,
+          onChange: this.onChange
+        }}
+        onSuggestionSelected={this.onSuggestionSelected}
+      />
     )
   }
 }
 
-const mapStateToProps = ({ searchSuggestions }) => ({
-  suggestions: searchSuggestions
-})
+const mapState = ({ searchSuggestions }) => {
+  const { error, loading, payload } = searchSuggestions
+  return {
+    error,
+    loading,
+    suggestions: payload
+  }
+}
 
-const mapDispatchToProps = dispatch => ({
-  getSuggestions: query => {
-    dispatch(getSearchSuggestions(query))
+const mapDispatch = dispatch => ({
+  onSuggestionsFetchRequested: ({ value }) => {
+    dispatch(getSuggestions(value))
+  },
+  onSuggestionsClearRequested: () => {
+    dispatch(clearSuggestions())
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withStyles(styles)(Search)
+export default withRouter(
+  connect(mapState, mapDispatch)(withStyles(styles)(Search))
 )

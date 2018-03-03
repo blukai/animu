@@ -55,7 +55,7 @@ export const transform = anititles =>
     titles: titles.reduce(
       (prev, { lang, type, text }) => {
         const next = prev.slice()
-        if (lang === 'x-jat' && type === 'main') {
+        if (type === 'main') {
           next[0] = text
         } else if (lang === 'en' && type === 'official') {
           next[1] = text
@@ -64,7 +64,7 @@ export const transform = anititles =>
         }
         return next
       },
-      [/* x-jat main */ '', /* en official */ '']
+      [/* main */ '', /* en official */ '']
     )
   }))
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { object } from 'prop-types'
 
+import { hot } from 'react-hot-loader'
 import { withStyles } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
@@ -26,4 +27,4 @@ Appbar.propTypes = {
   classes: object.isRequired
 }
 
-export default withStyles(styles)(Appbar)
+export default hot(module)(withStyles(styles)(Appbar))

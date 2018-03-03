@@ -1,4 +1,4 @@
-import { getSuggestions, suggestionsTypes } from './search'
+import { getSuggestions, clearSuggestions, suggestionsTypes } from './search'
 
 describe('search actions', () => {
   describe('getSuggestions', () => {
@@ -47,6 +47,21 @@ describe('search actions', () => {
         expect(startsWithIgnoreCase).toHaveBeenCalledWith(query)
         expect(limit).toHaveBeenCalledWith(10)
       })
+    })
+  })
+
+  describe('clearSuggestions', () => {
+    let store
+    beforeEach(() => {
+      store = mockStore({})
+    })
+
+    it('works', () => {
+      store.dispatch(clearSuggestions())
+
+      const actions = store.getActions()
+      const [clear] = actions
+      expect(clear).toEqual({ type: suggestionsTypes.clear })
     })
   })
 })
