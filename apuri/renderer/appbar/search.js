@@ -11,6 +11,8 @@ import Paper from 'material-ui/Paper'
 import { MenuItem } from 'material-ui/Menu'
 import { ListItemText } from 'material-ui/List'
 import SearchIcon from 'material-ui-icons/Search'
+import ClearIcon from 'material-ui-icons/Clear'
+import IconButton from 'material-ui/IconButton'
 
 import { getSuggestions, clearSuggestions } from '../actions/search'
 
@@ -58,6 +60,10 @@ const styles = theme => ({
   inputIcon: {
     width: 20,
     height: 20
+  },
+  inputButton: {
+    width: 20,
+    height: 20
   }
 })
 
@@ -102,6 +108,10 @@ class Search extends Component {
     }
   }
 
+  clearValue = () => {
+    this.setState({ value: '' })
+  }
+
   // renderers
 
   renderInput = props => {
@@ -122,6 +132,19 @@ class Search extends Component {
               color={value && value.length > 0 ? 'inherit' : 'disabled'}
             />
           </InputAdornment>
+        }
+        endAdornment={
+          value &&
+          value.length > 0 && (
+            <InputAdornment position="end">
+              <IconButton
+                className={classes.inputIcon}
+                onClick={this.clearValue}
+              >
+                <ClearIcon className={classes.inputIcon} />
+              </IconButton>
+            </InputAdornment>
+          )
         }
       />
     )
