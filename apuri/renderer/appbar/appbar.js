@@ -16,7 +16,7 @@ const styles = {
 }
 
 const Appbar = ({ classes }) => (
-  <AppBar position="static">
+  <AppBar>
     <Toolbar classes={{ root: classes.toolbar }}>
       <Search />
     </Toolbar>

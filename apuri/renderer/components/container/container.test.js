@@ -1,9 +1,14 @@
 import { shallow } from 'enzyme'
 
-import Container, { Error, Loading } from './container'
+import { Container, Error, Loading } from './container'
 
 describe('<Container />', () => {
-  const initialProps = { error: false, loading: false, children: '🌚' }
+  const initialProps = {
+    error: false,
+    loading: false,
+    children: '🌚',
+    classes: { root: '' }
+  }
 
   it('should render error', () => {
     const props = { ...initialProps, error: true }
