@@ -90,6 +90,8 @@ class Search extends Component {
     value: ''
   }
 
+  input = null
+
   // ----
 
   onChange = (event, { newValue }) => {
@@ -100,12 +102,12 @@ class Search extends Component {
 
   onSuggestionSelected = (event, { suggestion }) => {
     event.preventDefault()
-
     const { pathname: prev } = this.props.location
     const next = `/anime/${suggestion.id}`
     if (prev !== next) {
       this.props.history.push(next)
     }
+    this.input.blur()
   }
 
   clearValue = () => {
@@ -212,6 +214,11 @@ class Search extends Component {
           onChange: this.onChange
         }}
         onSuggestionSelected={this.onSuggestionSelected}
+        ref={as => {
+          if (as) {
+            this.input = as.input
+          }
+        }}
       />
     )
   }
