@@ -15,6 +15,7 @@ import ClearIcon from 'material-ui-icons/Clear'
 import IconButton from 'material-ui/IconButton'
 
 import { getSuggestions, clearSuggestions } from '../actions/search'
+import { objectizeTitleArray } from '../helpers'
 
 const styles = theme => ({
   container: {
@@ -162,7 +163,9 @@ class Search extends Component {
 
   renderSuggestion = ({ id, titles }, { query, isHighlighted }) => {
     const { classes } = this.props
-    const [mainTitle, officialTitle] = titles
+    const { main: mainTitle, official: officialTitle } = objectizeTitleArray(
+      titles
+    )
 
     return (
       <MenuItem

@@ -1,4 +1,4 @@
-import { update } from './anititles'
+import { update, types } from './anititles'
 
 import db from '../../providers/dexie'
 import { S3_URL, S3_BUCKET } from '../../../config'
@@ -11,5 +11,4 @@ export default update({
   client,
   localStorage
 })
-
-export { types } from './anititles'
+export { types }

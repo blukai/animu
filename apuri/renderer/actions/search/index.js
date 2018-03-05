@@ -1,6 +1,10 @@
-import { getSuggestions as getSuggestionsX, clearSuggestions } from './search'
+import {
+  getSuggestions as getSuggestionsX,
+  clearSuggestions,
+  suggestionsTypes
+} from './search'
 
 import db from '../../providers/dexie'
 
-export { suggestionsTypes, clearSuggestions } from './search'
 export const getSuggestions = getSuggestionsX({ db })
+export { suggestionsTypes, clearSuggestions }
